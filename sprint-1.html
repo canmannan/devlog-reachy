@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DevLog Sprint 1 - Bio-Reachy</title>
+  <link rel="stylesheet" href="stylish.css">
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jersey+10&display=swap" rel="stylesheet">
+</head>
+<body class="devlog">
+  <main class="devlog-page">
+    <h1>Sprint 1</h1>
+    <p class="intro">DevLog Bio-Reachy (zonder de Reachy)</p>
+
+    <section class="card">
+      <h2>Waar gaat het over?</h2>
+      <p>Voor de Dark Tech Studio werk ik met mijn team aan Bio-Reachy, voor opdrachtgever Bin Yu van Digital Life (HvA). Een sociale robot (Reachy) leest lichaamssignalen van de gebruiker, zoals hartslag en ademhaling, en reageert daarop. Het "dark" aspect: de gebruiker merkt dat de robot weet hoe hij of zij zich voelt.</p>
+      <p>De robot heeft drie opties:</p>
+      <ul>
+        <li><strong>Mirror:</strong> de robot spiegelt het gedrag van de gebruiker.</li>
+        <li><strong>Interpret:</strong> de robot benoemt wat hij ziet, bijvoorbeeld "je lijkt gestrest".</li>
+        <li><strong>Adapt:</strong> de robot past toon, tempo of woordkeuze aan.</li>
+      </ul>
+      <p>Doel van sprint 1: een werkende pipeline van sensor naar verwerking. Mijn deel is de ademhalingssensor.</p>
+    </section>
+
+    <section class="card">
+      <h2>Mijn team</h2>
+      <ul>
+        <li><strong>Can (ik):</strong> ademhalingssensor.</li>
+        <li><strong>Niek:</strong> helpt mij met testen van de ademhalingssensor en doet AI-onderzoek.</li>
+        <li><strong>Rio:</strong> pulssensor.</li>
+        <li><strong>Dipin:</strong> ideeën en testen bij de pulssensor.</li>
+        <li><strong>Yusuf:</strong> AI-onderzoek.</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>Tijdlijn</h2>
+      <ul>
+        <li><strong>di 22 sep:</strong> introductie met Bin Yu (16:00).</li>
+        <li><strong>di 29 sep:</strong> we krijgen de sensoren en hebben een beter idee van wat nodig is. De riem draait dezelfde dag al.</li>
+        <li><strong>wo 30 sep en do 1 okt:</strong> ademhalingstests.</li>
+        <li><strong>3 en 4 okt:</strong> ik probeer de riem op de Arduino Nano ESP32 te laten werken en loop vast op een error.</li>
+        <li><strong>Begin oktober:</strong> BLE-scan, en ik meld het probleem bij mijn team via Teams.</li>
+        <li><strong>Nog niet (volledig) gepland:</strong> sprintreview met Bin Yu. We hebben hem geïnformeerd.</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>Het eerste gesprek met Bin Yu</h2>
+      <p>Wat ik uit de notities van de introductie haal:</p>
+      <ul>
+        <li>Ons deel is het "dark" aspect: mensen merken dat de robot weet hoe zij zich voelen. Robots kunnen al lang emoties herkennen via gezichten. Wat nog mist is de fysiologie van de gebruiker.</li>
+        <li>Sprint 1: de hele pipeline van sensor naar verwerking werkend krijgen, een echt gesprek met de robot voeren en een baseline, stijging en daling meten.</li>
+        <li>Sprint 1 kan in twee groepen: een prototype en onderzoek naar concepten. Sprint 2 gaat over dataverwerking en de modi, sprint 3 over finetunen.</li>
+        <li>De documentatie moet goed zijn, want de resultaten worden mogelijk gepubliceerd.</li>
+        <li>Wekelijks overleg op dinsdag.</li>
+      </ul>
+      <p>Verder kwam in de chat met Bin: de simulatiemodus van Reachy Mini werkt bij ons al. Een fysieke robot probeert Bin te regelen.</p>
+    </section>
+
+    <section class="card">
+      <h2>Mijn startpunt</h2>
+      <p>De code voor de sensor heb ik niet zelf geschreven. Bin Yu stuurde me een breathing-app (Python-backend en frontend) en een ademhalingsriem van Elastech met een USB-ontvanger. Mijn taak was om dit werkend te krijgen en uit te zoeken hoe ik de data kan gebruiken voor het project.</p>
+      <figure>
+        <img src="sprint1/riem.jpg" alt="De Elastech ademhalingsriem">
+        <figcaption>De Elastech ademhalingsriem.</figcaption>
+      </figure>
+    </section>
+
+    <section class="card">
+      <h2>Hoe de keten werkt</h2>
+      <p>De riem stuurt de ademhaling via Bluetooth naar de USB-dongle. Op mijn laptop verschijnt die dongle als COM-poort. De Python-backend leest die poort uit en stuurt de data door naar de browser, waar ik dan de metingen kan uitvoeren.</p>
+      <p><span class="tag">Riem</span> → <span class="tag">Dongle (COM)</span> → <span class="tag">Python-backend</span> → <span class="tag">React-app</span></p>
+      <p>De riem zendt pakketjes van 5 bytes, die beginnen met <code>0xFA</code> en eindigen met <code>0xAA</code>. In de terminal zie ik de ruwe waarden binnenkomen.</p>
+    </section>
+
+    <section class="card">
+      <h2>De app draaiend krijgen op Windows</h2>
+      <p>De app is gemaakt op een Mac, dus op Windows moest ik een paar dingen anders doen:</p>
+      <ul>
+        <li>Python en Node.js installeren.</li>
+        <li>De map <code>node_modules</code> van de Mac verwijderen en opnieuw aanmaken met <code>npm install</code>.</li>
+        <li>Eerst testen in demomodus zonder riem, om te zien of de hele keten werkt.</li>
+      </ul>
+      <p>Daarna de riem aanzetten, de juiste COM-poort kiezen in de browser en verbinden.</p>
+      <figure>
+        <img src="sprint1/terminals.jpg" alt="Twee terminals: links de backend met binnenkomende waarden, rechts de frontend die start met Vite">
+        <figcaption>Links de backend met de binnenkomende ruwe waarden. Rechts de frontend (Vite) op localhost:3000.</figcaption>
+      </figure>
+    </section>
+
+    <section class="card">
+      <h2>Het resultaat</h2>
+      <p>De app ontvangt data van de riem en tekent de ademhaling live als golfvorm. De pieken en dalen zijn in- en uitademen.</p>
+      <figure>
+        <img src="sprint1/app-live.jpg" alt="Breath Monitor met een live ademhalingsgolf via COM4">
+        <figcaption>De Breath Monitor toont de live golfvorm via COM4.</figcaption>
+      </figure>
+      <figure>
+        <img src="sprint1/opstelling-laptop.jpg" alt="Laptop met de Breath Monitor, de dongle, de riem en het Arduino-bord op een breadboard">
+        <figcaption>De hele opstelling: laptop met dongle, de riem en de Arduino Nano ESP32.</figcaption>
+      </figure>
+    </section>
+
+    <section class="card">
+      <h2>Eerste baselinemeting</h2>
+      <p>De opdracht vraagt om begrip in de baseline van de ademhaling en om een vergelijking tussen stilzitten en praten. Ik heb beide situaties gemeten met de riem.</p>
+      <div class="figure-row">
+        <figure>
+          <img src="sprint1/stilzitten.png" alt="Ademhalingsgolf tijdens stilzitten: drie gelijkmatige ademhalingen">
+          <figcaption>Stilzitten, zonder praten.</figcaption>
+        </figure>
+        <figure>
+          <img src="sprint1/praten.png" alt="Ademhalingsgolf tijdens praten: onregelmatig met kleine rimpels en één grote piek">
+          <figcaption>Tijdens het praten.</figcaption>
+        </figure>
+      </div>
+      <p><strong>Wat ik zie:</strong> bij stilzitten zijn er drie ademhalingen die qua vorm en hoogte op elkaar lijken. Tijdens het praten zijn de golven veel onregelmatiger. De ademhalingen verschillen in grootte, er zijn kleine rimpels in het dal en er is een grote piek.</p>
+      <p>Dit laat wel zien dat de situatie uitmaakt voor wat je een baseline noemt. Dat past bij de vraag van Bin of de baseline beter tijdens het praten gemeten kan worden. Ik moet de metingen herhalen.</p>
+    </section>
+
+    <section class="card">
+      <h2>Wat niet werkte</h2>
+      <p>Soms stond er "no ports found" in de app. Dan was de dongle niet gekoppeld aan de riem of niet herkend. Een COM-poort kan ook maar door één programma tegelijk gebruikt worden.</p>
+      <figure>
+        <img src="sprint1/app-geen-poort.jpg" alt="Breath Monitor met 'no ports found' en een vlakke lijn">
+        <figcaption>"no ports found"</figcaption>
+      </figure>
+      <p><strong>Breath rate blijft leeg.</strong> In de screenshots toont de app wel een amplitude, maar bij "breath rate" staat alleen een streepje. Dit moet ik nog uitzoeken.</p>
+    </section>
+
+    <section class="card">
+      <h2>De Arduino Nano ESP32</h2>
+      <p>Ik wilde proberen of de Arduino Nano ESP32 de riem zelf kan uitlezen, zodat de pc niet nodig is (kan misschien later een wearable zijn). De Nano draait MicroPython, heeft Wi-Fi en Bluetooth en past daarmee goed bij een kleine, draagbare setup.</p>
+      <div class="figure-row">
+        <figure>
+          <img src="sprint1/nano-usb.jpg" alt="Arduino Nano ESP32 op een breadboard met USB-C kabel">
+          <figcaption>De Nano ESP32 aangesloten op USB.</figcaption>
+        </figure>
+        <figure>
+          <img src="sprint1/breadboard-kabels.jpg" alt="Arduino Nano ESP32 met een rode draad op 3.3V, een gele op A0 en een blauwe draad op GND">
+          <figcaption>Draden op de Nano: rood op 3.3V, geel op A0 en blauw op GND.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Technische uitdaging: de Nano ziet de riem niet</h2>
+      <p>De app zelf kan niet op de Nano draaien. De app is te zwaar voor MicroPython, en de dongle is een USB-apparaat voor een pc, terwijl de Nano geen USB-host is.</p>
+      <p>Dus probeerde ik of de Nano de riem rechtstreeks via Bluetooth kan vinden. De Nano ondersteunt alleen Bluetooth Low Energy (BLE). Ik zocht online naar Bluetooth-scancode, paste die een beetje aan voor MicroPython en deed de scan twee keer. Eerst met de riem uit, daarna met de riem aan, vlak naast de Nano.</p>
+      <figure>
+        <img src="sprint1/ble-scan.jpg" alt="Arduino Lab for MicroPython met de uitvoer van de tweede BLE-scan">
+        <figcaption>Uitvoer van scan 2 (riem aan) in Arduino Lab.</figcaption>
+      </figure>
+      <p>Resultaat: er verscheen geen apparaat dat bij de riem past. De "nieuwe" apparaten zaten op -100 en -103 dBm. Dat is echt veel te zwak voor een riem op 30 cm afstand, en ze stonden al in de eerste scan. De rest waren apparaten uit mijn kamer.</p>
+    </section>
+
+    <section class="card">
+      <h2>Overleg met mijn team over de Arduino</h2>
+      <p>Dit kwam uit het gesprek met mijn team:</p>
+      <ul>
+        <li>De chip op de Nano kan fysiek alleen BLE. We houden de Nano voorlopig voor een wearable die we kunnen testen.</li>
+        <li>We bespreken de situatie later met Bin Yu, want er is nu niet veel dat we kunnen doen.</li>
+        <li>Een idee: een gewone ESP32 gebruiken, want die heeft klassieke Bluetooth en BLE. Het gaat waarschijnlijk om een ESP32-WROOM (4 MB). Dit moeten we nog precies bespreken.</li>
+        <li>Een ander idee: de dongle met draden op de UART-pinnen van een ESP32 aansluiten. De dongle kan op 5 V werken en een ESP32 op 3,3 V, dus dat moeten we eerst uitzoeken.</li>
+      </ul>
+      <p>Eigen aantekening: MicroPython op de ESP32 ondersteunt alleen BLE. Voor klassieke Bluetooth zouden we dus waarschijnlijk een andere programmeeromgeving moeten gebruiken, bijvoorbeeld Arduino (C++).</p>
+    </section>
+
+    <section class="card">
+      <h2>Wat ik hieruit leer</h2>
+      <ul>
+        <li>De pc als tussenstation werkt zeker: de pc leest de riem uit en stuurt de waarden door naar een bord of de robot.</li>
+        <li>Een gewone ESP32 kan de riem misschien meteen uitlezen, maar alleen als de riem klassieke Bluetooth via een verbinding gebruikt. Dat moet ik nog bevestigen.</li>
+        <li>De situatie (stilzitten of praten) maakt uit voor de ademhaling. Dat heeft gevolgen voor hoe we de baseline bepalen.</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>Waar ik nog tegenaan loop</h2>
+      <ul>
+        <li>De Reachy-robot is er nog niet. Bin Yu probeert een fysieke robot te regelen. Misschien kunnen we tijdelijk een Reachy van de UvA lenen.</li>
+        <li>Ik weet nog niet of de riem BLE of klassieke Bluetooth gebruikt.</li>
+        <li>Welke ESP32 we precies gebruiken, moeten we nog bespreken.</li>
+        <li>De baselinemeting is nog maar een test.</li>
+        <li>De sprintreview met Bin Yu is nog niet gepland.</li>
+      </ul>
+    </section>
+
+    <section class="card question">
+      <h2>Mijn feedbackvraag aan de groep</h2>
+      <ul>
+        <li>De Nano kan alleen BLE en de riem lijkt klassieke Bluetooth te gebruiken. Welke route kiezen we voor de ademhalingsdata, de pc als tussenstation of een gewone ESP32 die de riem rechtstreeks leest?</li>
+        <li>Waar moet de baseline op gebaseerd zijn: stilzitten of het praten tijdens een kennismaking met de robot? Mijn eerste meting laat een duidelijk verschil zien.</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>Volgende stappen</h2>
+      <ul>
+        <li>Navraag bij Elastech over het protocol.</li>
+        <li>Met mijn team beslissen welke ESP32 we gebruiken en of we daarvoor een andere programmeeromgeving gebruiken.</li>
+        <li>De baselinemeting herhalen en uitzoeken waarom de breath rate leeg blijft.</li>
+        <li>De ademhalingsdata koppelen aan de pulssensor en de robot.</li>
+        <li>Een datum plannen voor de sprintreview met Bin Yu.</li>
+        <li>Hopelijk testen maken met de robot.</li>
+      </ul>
+    </section>
+
+    <div class="button-container">
+      <a href="index.html" class="back">← Terug naar home</a>
+    </div>
+  </main>
+</body>
+</html>
