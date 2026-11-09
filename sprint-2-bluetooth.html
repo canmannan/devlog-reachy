@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DevLog Sprint 2 - 2. Riem uitlezen met de ESP32 (Bluetooth)</title>
+  <link rel="stylesheet" href="stylish.css">
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jersey+10&display=swap" rel="stylesheet">
+</head>
+<body class="devlog sprint2">
+<div class="s2-layout">
+  <nav class="s2-side">
+    <p class="s2-title">Sprint 2</p>
+      <a href="sprint-2.html">Overzicht</a>
+      <a href="sprint-2-reachy-bouwen.html">1 Reachy bouwen</a>
+      <a href="sprint-2-bluetooth.html" class="actief">2 Bluetooth</a>
+      <a href="sprint-2-websocket.html">3 WebSocket</a>
+      <a href="sprint-2-ademdata.html">4 Ademdata</a>
+      <a href="sprint-2-ademtool.html">5 Ademtool</a>
+      <a href="sprint-2-mockdata.html">6 Mockdata</a>
+      <a href="sprint-2-netwerk.html">7 Netwerk</a>
+      <a href="sprint-2-echte-robot.html">8 Echte robot</a>
+      <a href="sprint-2-festival.html">9 Festival</a>
+      <a href="sprint-2-seminar.html">10 Seminar</a>
+      <a href="sprint-2-epaper.html">11 E-paper</a>
+      <a href="sprint-2-afsluiting.html">Afsluiting</a>
+      <a class="s2-home" href="index.html">← Home</a>
+  </nav>
+  <main class="devlog-page">
+    <h1>2. Riem uitlezen met de ESP32 (Bluetooth)</h1>
+    <p class="intro">Ik wilde de ademriem rechtstreeks met de ESP32 uitlezen, zonder laptop of telefoon ertussen.</p>
+    <p class="datum">vr 30 oktober t/m di 3 november 2026</p>
+
+    <section class="card">
+      <h2>Waar ik begon</h2>
+      <p>Dit werk begon eigenlijk al in Sprint 1, toen ik de riem met een dongle en een pc uitlas. Toen wist ik al een paar dingen over FFE1 en over het aanzetten van meldingen. Ik vroeg me ook af of de riem gewoon Bluetooth of Bluetooth Low Energy (BLE) gebruikt. In Sprint 2 ging ik er echt mee verder, vanaf vr 30 oktober, en op di 3 november werkte het helemaal.</p>
+      <p>Mijn onderzoeksvraag was <strong>hoe ik de riem direct met de ESP32 kan uitlezen</strong>. De riem heeft een HC-08 Bluetooth-module, dus de ESP32 moet verbinding maken met de riem en zich gedragen als &ldquo;central&rdquo;.</p>
+    </section>
+    <section class="card">
+      <h2>Wat ik niet snapte</h2>
+      <p>Eerlijk gezegd begreep ik het Bluetooth-gedeelte in het begin niet. Ik wist dat de riem data stuurt, maar niet hoe de ESP32 die kon krijgen. In nRF Connect zag ik veel informatie over het apparaat, maar ik wist niet wat ik daarmee moest.</p>
+    </section>
+    <section class="card">
+      <h2>Hoe ik het ging begrijpen</h2>
+      <p>Ik begon met de datasheet van de HC-08 en met de BoKSA-pagina <em>Reading Datasheets</em>. Daar leerde ik hoe een datasheet is opgebouwd en hoe ik er precies het nuttige uit haal. Dat was belangrijk, want zo vond ik in de datasheet de standaardnaam (HC-08) en de nummers FFE0 en FFE1.</p>
+      <p>Om de communicatie tussen het apparaat en de app beter te begrijpen, las ik twee lessen van de Nordic Academy, namelijk les 4 over seriële communicatie (UART) en les 3 over berichten printen en loggen. Met <code>print</code> kon ik zien wat er gebeurde, en daardoor snapte ik de logs van de communicatie beter.</p>
+      <p>De video <em>How to make Skylanders NFC Cards!</em> had ik vorig jaar al gezien. Hij ging over NFC-kaarten en liet me zien dat je met een tool de data van een chip kunt bekijken. Dat idee nam ik mee toen ik de riem met nRF Connect ging bekijken. Verder legde ik de Bluetooth-kant vooral uit aan Rio, wat voor ons allebei leerzaam was.</p>
+    </section>
+    <section class="card">
+      <h2>Wat ik zag in nRF Connect</h2>
+      <p>In nRF Connect heet de riem <strong>&ldquo;Smart-H&rdquo;</strong>, niet &ldquo;HC-08&rdquo;. De chip is volgens de datasheet een HC-08. Ik weet niet zeker waarom de naam anders is. Mijn gedachte is dat het de naam van het hele apparaat is en niet alleen van de chip.</p>
+      <p>Het apparaat laat de service <strong>FFF0</strong> zien. Als je verbindt, zie je de service <strong>FFE0</strong> met daarin <strong>FFE1</strong>. FFE1 kan lezen, schrijven zonder antwoord en meldingen sturen (notify). Bij &ldquo;Last Read&rdquo; staat <code>FA29 6A1C AA</code>.</p>
+      <p>Dat is één pakket van 5 bytes, namelijk <code>FA</code> (begin), <code>29</code> en <code>6A</code> (de ruwe waarde), <code>1C</code> (frequentie) en <code>AA</code> (einde). De ruwe waarde is hoog &times; 256 + laag, dus 0x29 &times; 256 + 0x6A = 10602.</p>
+      <div class="figure-row">
+        <figure>
+        <img src="sprint2/nrf-scan.jpg" alt="nRF Connect met het apparaat Smart-H en de service FFF0">
+        <figcaption>nRF Connect met het apparaat &ldquo;Smart-H&rdquo; en service FFF0 (2 en 3 november).</figcaption>
+      </figure>
+        <figure>
+        <img src="sprint2/nrf-ffe1.jpg" alt="nRF Connect met service FFE0, FFE1 en Last Read FA29 6A1C AA">
+        <figcaption>De service FFE0 met FFE1 en het laatste pakket (2 en 3 november).</figcaption>
+      </figure>
+      </div>
+    </section>
+    <section class="card">
+      <h2>Stappen</h2>
+      <ol>
+        <li>Ik keek met de app nRF Connect op mijn telefoon naar de riem, voordat ik code schreef.</li>
+        <li>De data komt binnen als meldingen (notificaties) op de characteristic FFE1. De handle zoek ik op door de characteristics te ontdekken.</li>
+        <li>Om meldingen aan te zetten schrijf ik 0x0001 naar de descriptor direct na de value handle (handle + 1). Zo &ldquo;abonneer&rdquo; ik me op FFE1.</li>
+        <li>Elke melding is een pakket van 5 bytes, namelijk 0xFA, hoge byte, lage byte, frequentie en 0xAA. De ruwe waarde is hoog &times; 256 + laag.</li>
+        <li>In MicroPython zoek ik de riem, maak ik verbinding, ontdek ik de characteristics, abonneer ik op FFE1 en lees ik de pakketten uit.</li>
+      </ol>
+      <figure>
+        <img src="sprint2/thonny-riem-verbonden.jpg" alt="Thonny met de uitvoer: riem verbonden, abonnement aan op FFE1">
+        <figcaption>In Thonny vindt de ESP32 de riem (&ldquo;riem verbonden&rdquo;) en zet hij het abonnement aan op FFE1. De wifi-gegevens bovenin heb ik weggehaald.</figcaption>
+      </figure>
+    </section>
+    <section class="card uitleg">
+      <h2>Wat de datasheet wel en niet zegt</h2>
+      <p>In de datasheet van de HC-08 staat de standaardnaam &ldquo;HC-08&rdquo;, de zoek-UUID FFF0 voor de master, de service FFE0 en de characteristic FFE1 met de eigenschappen read, notify en write without response. Na de verbinding werkt de module in transparante seriële modus (pagina 4, 6, 12 en 13).</p>
+      <p>Het pakket van 5 bytes (0xFA &hellip; 0xAA) staat <strong>niet</strong> in de datasheet. Dat komt van de riem zelf. Ik zag de pakketten eerder in de terminal van de breathing-app en later in nRF Connect.</p>
+    </section>
+    <section class="card probleem">
+      <p><span class="label">Probleem.</span> Het script stopte met een KeyError toen het de handle van FFE1 wilde gebruiken.</p>
+    </section>
+    <section class="card oplossing">
+      <p><span class="label">Oplossing.</span> Ik zoek FFE1 nu door te controleren of &ldquo;ffe1&rdquo; in de UUID zit, en het script controleert of de handle bestaat voordat het zich abonneert. Anders meldt het &ldquo;FFE1 niet gevonden&rdquo; en probeert het opnieuw.</p>
+    </section>
+    <section class="card">
+      <h2>Wat ik hieruit leer</h2>
+      <ul>
+        <li>Ik testte eerst met een app op mijn telefoon voordat ik code schreef. Zo zag ik wat de riem echt stuurt, in plaats van te raden.</li>
+        <li>Ik leerde hoe Bluetooth met apparaten praat en wat de nummers FFE0 en FFE1 zijn.</li>
+        <li>De riem gebruikt BLE, want nRF Connect laat zijn services en characteristics zien. Dat was in Sprint 1 nog een vraag.</li>
+        <li>Ik leerde de snelheid van de Bluetooth-meldingen herkennen, ongeveer 20 per seconde.</li>
+        <li>Een datasheet lezen is een vaardigheid. Weten waar je moet zoeken scheelt veel tijd.</li>
+      </ul>
+    </section>
+    <section class="card bronnen">
+      <h2>Bronnen</h2>
+      <ul>
+        <li>HC-08 datasheet. <a href="https://www.hc01.com/downloads/HC-08A%20version%20english%20datasheet.pdf" style="color:#002ea3">https://www.hc01.com/downloads/HC-08A%20version%20english%20datasheet.pdf</a></li>
+        <li>BoKSA, Reading Datasheets. <a href="https://boksa.hbo-ict-hva.nl/profiles/embedded-robotica-engineer/knowledge/prototyping/reading-datasheets/" style="color:#002ea3">https://boksa.hbo-ict-hva.nl/profiles/embedded-robotica-engineer/knowledge/prototyping/reading-datasheets/</a></li>
+        <li>Nordic Academy, les 4, Serial communication (UART). <a href="https://academy.nordicsemi.com/courses/nrf-connect-sdk-fundamentals/lessons/lesson-4-serial-communication-uart/" style="color:#002ea3">https://academy.nordicsemi.com/courses/nrf-connect-sdk-fundamentals/lessons/lesson-4-serial-communication-uart/</a></li>
+        <li>Nordic Academy, les 3, Printing messages to console and logging. <a href="https://academy.nordicsemi.com/courses/nrf-connect-sdk-fundamentals/lessons/lesson-3-printing-messages-to-console-and-logging/" style="color:#002ea3">https://academy.nordicsemi.com/courses/nrf-connect-sdk-fundamentals/lessons/lesson-3-printing-messages-to-console-and-logging/</a></li>
+        <li>MicroPython, bluetooth. <a href="https://docs.micropython.org/en/latest/library/bluetooth.html" style="color:#002ea3">https://docs.micropython.org/en/latest/library/bluetooth.html</a></li>
+        <li>Inspiratie. &ldquo;How to make Skylanders NFC Cards!&rdquo; (YouTube). <a href="https://www.youtube.com/watch?v=6GGM4oMyJdI" style="color:#002ea3">https://www.youtube.com/watch?v=6GGM4oMyJdI</a></li>
+      </ul>
+    </section>
+
+    <div class="pagenav"><a href="sprint-2-reachy-bouwen.html">← 1 Reachy bouwen</a><a href="sprint-2-websocket.html">3 WebSocket →</a></div>
+  </main>
+</div>
+</body>
+</html>

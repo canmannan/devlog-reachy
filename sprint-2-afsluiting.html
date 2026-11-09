@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DevLog Sprint 2 - Afsluiting van Sprint 2</title>
+  <link rel="stylesheet" href="stylish.css">
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jersey+10&display=swap" rel="stylesheet">
+</head>
+<body class="devlog sprint2">
+<div class="s2-layout">
+  <nav class="s2-side">
+    <p class="s2-title">Sprint 2</p>
+      <a href="sprint-2.html">Overzicht</a>
+      <a href="sprint-2-reachy-bouwen.html">1 Reachy bouwen</a>
+      <a href="sprint-2-bluetooth.html">2 Bluetooth</a>
+      <a href="sprint-2-websocket.html">3 WebSocket</a>
+      <a href="sprint-2-ademdata.html">4 Ademdata</a>
+      <a href="sprint-2-ademtool.html">5 Ademtool</a>
+      <a href="sprint-2-mockdata.html">6 Mockdata</a>
+      <a href="sprint-2-netwerk.html">7 Netwerk</a>
+      <a href="sprint-2-echte-robot.html">8 Echte robot</a>
+      <a href="sprint-2-festival.html">9 Festival</a>
+      <a href="sprint-2-seminar.html">10 Seminar</a>
+      <a href="sprint-2-epaper.html">11 E-paper</a>
+      <a href="sprint-2-afsluiting.html" class="actief">Afsluiting</a>
+      <a class="s2-home" href="index.html">← Home</a>
+  </nav>
+  <main class="devlog-page">
+    <h1>Afsluiting van Sprint 2</h1>
+    <p class="intro">Wat ik leerde, wat beter kan en wat er nog komt.</p>
+
+    <section class="card">
+      <h2>Wat ik heb geleerd</h2>
+      <p>Het grootste wat ik leerde, is dat een systeem pas goed werkt als je elk stuk begrijpt. In het begin snapte ik het Bluetooth-gedeelte niet. Door de datasheet, nRF Connect en de lessen van de Nordic Academy te lezen en het aan Rio uit te leggen, snapte ik het steeds beter. Nu weet ik hoe de ESP32 de riem vindt, meldingen aanzet en de pakketten uitleest.</p>
+      <p>Ik leerde ook dat een waarde die er goed uitziet, toch fout kan zijn. De diepte klopte niet en mijn eerste mock leek niet op de echte riem. Pas toen ik de getallen controleerde, vond ik de fouten. En ik leerde dat veel problemen aan het netwerk lagen en niet aan mijn code. Het netwerk testen komt eerst, voordat je de code aanpast.</p>
+      <p>Ten slotte leerde ik veel van Rio en van de documentatie van het team. Door te kijken hoe zij het deden, kon ik sneller werken en hetzelfde patroon volgen.</p>
+    </section>
+    <section class="card">
+      <h2>Wat kan beter</h2>
+      <p>Mijn documentatie was goed, maar ik kon hem sneller maken. Dat besprak ik met het team. Ik had het netwerk ook eerder moeten testen, zeker voor het festival. Ik wist toen niet vooraf dat het wifi slecht zou zijn en dat Reachy mijn ademhaling niet zou horen in de herrie. Ik moet ook nog mijn eigen aanname controleren dat een stijgende waarde echt inademen is.</p>
+    </section>
+    <section class="card">
+      <h2>Waar ik nog tegenaan loop</h2>
+      <ul>
+        <li>Reachy hoort ons niet goed in lawaai.</li>
+        <li>We moeten bedenken hoe Reachy &ldquo;dark&rdquo; moet worden en hoe we dat doen.</li>
+        <li>Ik heb nog niet gecontroleerd of een stijgende waarde echt inademen is.</li>
+        <li>Mijn netwerkgegevens staan in het script, dus bij elk nieuw netwerk moet ik het script aanpassen.</li>
+      </ul>
+    </section>
+    <section class="card question">
+      <h2>Mijn feedbackvragen aan de groep</h2>
+      <ul>
+        <li><strong>Dark.</strong> Claar wil dat we in Sprint 3 Reachy &ldquo;dark&rdquo; maken. Hoe zouden jullie dat aanpakken? Welke ideeën hebben jullie?</li>
+        <li><strong>Omgeving.</strong> We willen apparaten om ons heen (lampen, speakers) koppelen aan Reachy, zodat hij ze kan aansturen. Is je hartslag laag, dan dimt hij de lampen, en is hij hoog, dan gebeurt er iets anders. Welke reacties van de omgeving zouden hier goed bij passen?</li>
+        <li><strong>Pulse en breathing op één ESP32.</strong> De pulse-app draait in C/C++ en de breathing-app in MicroPython. Bestaat er al een MicroPython-driver voor onze pulssensor van iemand anders, of moeten we een andere aanpak kiezen (bijvoorbeeld twee ESP32&rsquo;s)?</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>Volgende stappen</h2>
+      <ul>
+        <li>Op di 10 november met Claar en het team brainstormen over &ldquo;dark&rdquo; en de opties noteren.</li>
+        <li>Typen toevoegen in het chatvenster van de app, zodat je met Reachy kunt typen als het luid is.</li>
+        <li>Mijn ademdata en de richting inademen en uitademen controleren door een paar ademhalingen te tellen.</li>
+        <li>De ademtool laten verlopen na een paar seconden als de riem wegvalt, zodat Reachy geen oude waarde meldt.</li>
+        <li>Uitzoeken hoe we de omringende apparaten (lampen, speakers) aan Reachy koppelen.</li>
+        <li>Uitzoeken hoe de pulse- en breathing-code op één ESP32 kunnen draaien.</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>Leerdoelen</h2>
+      <p><strong>Persoonlijk leiderschap.</strong> Op elke pagina schrijf ik op wat ik leer, en hierboven wat beter kan. Feedback haalde ik op bij de bezoekers van het festival en bij Claar, en ik vertaal die naar de volgende stappen (dark maken, typen in de chat). Ik stuurde mijn eigen leerproces door eerst nRF Connect te gebruiken, de datasheet en BoKSA te lezen en Rio&rsquo;s aanpak als voorbeeld te nemen. Ik nam initiatief door mijn kennis te delen met het team. Dat ging over hoe de ademdata werkt, mijn MAC-adresprobleem en de oplossing, mijn documentatie over Reachy, de netwerkproblemen en de mock. De Bluetooth-kant legde ik uit aan Rio.</p>
+      <p><strong>Onderzoekend en kritisch.</strong> Ik begon met een duidelijke onderzoeksvraag. Hoe lees ik de riem direct met de ESP32 uit? Ik keek kritisch naar mijn eigen werk. Ik controleerde de diepte en vond een fout, en ik zag dat mijn eerste mock niet op echte ademhaling leek. Bij het netwerk scheidde ik hoofd- en bijzaken en zag dat het netwerk het kernprobleem was. Bij het seminar bevroeg ik bronnen en gebruikte Kapeller et al. voor de opbouw van de discussie. Ik gaf het team ook een onderbouwd advies, namelijk om bij een volgend evenement één hotspot op 2,4 GHz te gebruiken, omdat dan alles op één netwerk zit, met internet (zie de vergelijking van vier opties op pagina 7). Bij het seminar paste ik mijn communicatie aan op de klas, met de discussie in drie niveaus, van de gebruiker tot de samenleving, en noodzinnen voor als het stilviel.</p>
+      <p><strong>Ontwerpen en realiseren.</strong> Ik werkte vanuit een plan met riem, ESP32, WebSocket, tool en Reachy. Ik keek eerst wat er al bestond (het patroon van de pulssensor van Rio, RFC 6455 en de datasheet). Ik liet mijn werk zien aan stakeholders, namelijk bezoekers op het festival en mijn mentor Claar. Ik testte mijn tool en mijn mock voordat ik ze gebruikte. Op school testte ik met mijn eigen ademhaling, en het antwoord van Reachy klopte steeds en bleef constant. Ik hield rekening met de gebruiker. Er staan geen wachtwoorden in het DevLog en ik maakte gezichten onherkenbaar.</p>
+      <p><strong>Managen en samenwerken.</strong> Ik werkte met job stories in GitLab. Ik schreef op wat goed ging en wat beter kan bij het festival en het seminar. Mijn werk is bruikbaar voor anderen. De ademtool staat in het profiel <code>interpret</code> en de mock kan het hele team gebruiken. Ik pakte taken op buiten mijn eigen deel, zoals de Reachy-app opschonen met Rio, de mock voor het hele team en mijn documentatie over Reachy. Ik merkte dat ik mijn documentatie sneller moest maken en besprak dat met het team. De netwerkproblemen kenden we allemaal.</p>
+    </section>
+
+    <div class="pagenav"><a href="sprint-2-epaper.html">← 11 E-paper</a><span></span></div>
+  </main>
+</div>
+</body>
+</html>

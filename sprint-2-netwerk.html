@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DevLog Sprint 2 - 7. Netwerkproblemen</title>
+  <link rel="stylesheet" href="stylish.css">
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jersey+10&display=swap" rel="stylesheet">
+</head>
+<body class="devlog sprint2">
+<div class="s2-layout">
+  <nav class="s2-side">
+    <p class="s2-title">Sprint 2</p>
+      <a href="sprint-2.html">Overzicht</a>
+      <a href="sprint-2-reachy-bouwen.html">1 Reachy bouwen</a>
+      <a href="sprint-2-bluetooth.html">2 Bluetooth</a>
+      <a href="sprint-2-websocket.html">3 WebSocket</a>
+      <a href="sprint-2-ademdata.html">4 Ademdata</a>
+      <a href="sprint-2-ademtool.html">5 Ademtool</a>
+      <a href="sprint-2-mockdata.html">6 Mockdata</a>
+      <a href="sprint-2-netwerk.html" class="actief">7 Netwerk</a>
+      <a href="sprint-2-echte-robot.html">8 Echte robot</a>
+      <a href="sprint-2-festival.html">9 Festival</a>
+      <a href="sprint-2-seminar.html">10 Seminar</a>
+      <a href="sprint-2-epaper.html">11 E-paper</a>
+      <a href="sprint-2-afsluiting.html">Afsluiting</a>
+      <a class="s2-home" href="index.html">← Home</a>
+  </nav>
+  <main class="devlog-page">
+    <h1>7. Netwerkproblemen</h1>
+    <p class="intro">De laptop, de ESP32 en de robot moesten op één netwerk.</p>
+    <p class="datum">di 3 november (problemen met iotroam) en wo 4 november 2026 (festival)</p>
+
+    <section class="card">
+      <h2>Het kernprobleem</h2>
+      <p>De code was niet het probleem. Het netwerk was dat. Dit leerde ik.</p>
+      <ul>
+        <li>Bij het schoolwifi iotroam hoort elk wachtwoord bij één apparaat (via het MAC-adres). Het wachtwoord van de robot werkt niet voor de ESP32, en andersom ook niet.</li>
+        <li>Mijn laptop op HvA-wifi bereikte de ESP32 op iotroam niet. Ze zitten in verschillende netwerken.</li>
+        <li>Reachy kan alleen verbinden met een netwerk met een wachtwoord (beveiligd). Open netwerken werken niet.</li>
+        <li>Een laptop heeft één wifikaart, dus hij kan niet tegelijk op het netwerk van de ESP32 en op een ander wifi zitten. Ik heb internet nodig voor het gesproken deel van de app, omdat dat een online dienst gebruikt.</li>
+        <li>Het wifi in het Volkshotel, waar het festival was, was erg slecht.</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>Opties die ik vergeleek</h2>
+      <table>
+        <tr><th>Optie</th><th>Goed</th><th>Minder goed</th></tr>
+        <tr><td>iotroam voor elk apparaat</td><td>officieel schoolnetwerk</td><td>elk apparaat moet geregistreerd worden</td></tr>
+        <tr><td>Eigen netwerk van de ESP32</td><td>werkt overal</td><td>de laptop heeft dan geen internet</td></tr>
+        <tr><td>Hotspot (2,4 GHz)</td><td>alles op één netwerk, met internet</td><td>heeft een telefoon nodig</td></tr>
+        <tr><td>Thuiswifi</td><td>werkt goed</td><td>alleen thuis</td></tr>
+      </table>
+    </section>
+    <section class="card">
+      <h2>Wat ik deed</h2>
+      <ul>
+        <li>Thuis verbond de ESP32 met het thuiswifi en kreeg een eigen IP-adres. De riem verbond ook.</li>
+        <li>Als de ESP32 geen wifi vindt, maakt hij zijn eigen netwerk <code>breathing-esp32</code>.</li>
+        <li>Voor iotroam had ik het MAC-adres van de robot nodig. Ik vond het met een klein script op de ESP32 dat de apparaten laat zien die met zijn eigen netwerk verbonden zijn. Ik zette de robot op dat netwerk en zag zijn adres verschijnen.</li>
+        <li>Op het festival gebruikten we de hotspot van Yusuf op 2,4 GHz. Die werkte met alle microcontrollers en met Reachy zelf.</li>
+      </ul>
+    </section>
+    <section class="card probleem">
+      <p><span class="label">Probleem.</span> Een tikfout in de netwerknaam (<code>iotroom</code> in plaats van <code>iotroam</code>), foutcode 202 (verkeerd wachtwoord voor dat apparaat) en een verkeerd IP-adres in <code>.env</code> nadat ik van netwerk wisselde.</p>
+    </section>
+    <section class="card oplossing">
+      <p><span class="label">Oplossing.</span> Controleer de spelling, gebruik het juiste wachtwoord bij het juiste apparaat, en pas na elke netwerkwissel <code>BREATHING_SENSOR_HOST</code> aan. De hotspot op 2,4 GHz is de veiligste keuze.</p>
+    </section>
+    <section class="card uitleg">
+      <h2>Tip</h2>
+      <p>Wachtwoorden en MAC-adressen staan niet in dit DevLog, omdat de site openbaar is.</p>
+    </section>
+    <section class="card">
+      <h2>Wat ik hieruit leer</h2>
+      <p>Test eerst het netwerk en daarna pas de code. Het meeste verloren tijd kwam doordat ik niet wist op welk netwerk elk apparaat zat.</p>
+      <p><strong>Advies voor het team.</strong> Gebruik bij een volgend evenement één hotspot op 2,4 GHz met wachtwoord voor de laptop, de robot en de ESP32. Test het netwerk al voordat het publiek er is.</p>
+    </section>
+    <section class="card bronnen">
+      <h2>Bronnen</h2>
+      <ul>
+        <li>MicroPython, network. <a href="https://docs.micropython.org/en/latest/library/network.html" style="color:#002ea3">https://docs.micropython.org/en/latest/library/network.html</a></li>
+        <li>Stack Overflow, MAC-adres opvragen in MicroPython. <a href="https://stackoverflow.com/questions/71902740/how-to-retrieve-and-format-wifi-mac-address-in-micropython-on-esp32" style="color:#002ea3">https://stackoverflow.com/questions/71902740/how-to-retrieve-and-format-wifi-mac-address-in-micropython-on-esp32</a></li>
+        <li>GeeksforGeeks, MAC-adres opvragen met Python. <a href="https://www.geeksforgeeks.org/python/extracting-mac-address-using-python/" style="color:#002ea3">https://www.geeksforgeeks.org/python/extracting-mac-address-using-python/</a></li>
+      </ul>
+    </section>
+
+    <div class="pagenav"><a href="sprint-2-mockdata.html">← 6 Mockdata</a><a href="sprint-2-echte-robot.html">8 Echte robot →</a></div>
+  </main>
+</div>
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DevLog Sprint 2 - Bio-Reachy</title>
+  <title>DevLog Sprint 2 - Overzicht</title>
   <link rel="stylesheet" href="stylish.css">
 
   <!-- Google Font -->
@@ -11,27 +11,113 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Jersey+10&display=swap" rel="stylesheet">
 </head>
-<body class="devlog">
+<body class="devlog sprint2">
+<div class="s2-layout">
+  <nav class="s2-side">
+    <p class="s2-title">Sprint 2</p>
+      <a href="sprint-2.html" class="actief">Overzicht</a>
+      <a href="sprint-2-reachy-bouwen.html">1 Reachy bouwen</a>
+      <a href="sprint-2-bluetooth.html">2 Bluetooth</a>
+      <a href="sprint-2-websocket.html">3 WebSocket</a>
+      <a href="sprint-2-ademdata.html">4 Ademdata</a>
+      <a href="sprint-2-ademtool.html">5 Ademtool</a>
+      <a href="sprint-2-mockdata.html">6 Mockdata</a>
+      <a href="sprint-2-netwerk.html">7 Netwerk</a>
+      <a href="sprint-2-echte-robot.html">8 Echte robot</a>
+      <a href="sprint-2-festival.html">9 Festival</a>
+      <a href="sprint-2-seminar.html">10 Seminar</a>
+      <a href="sprint-2-epaper.html">11 E-paper</a>
+      <a href="sprint-2-afsluiting.html">Afsluiting</a>
+      <a class="s2-home" href="index.html">← Home</a>
+  </nav>
   <main class="devlog-page">
     <h1>Sprint 2</h1>
     <p class="intro">DevLog Bio-Reachy</p>
 
     <section class="card">
-      <h2>Doel van deze sprint</h2>
+      <h2>Waar gaat deze sprint over?</h2>
+      <p>In Sprint 1 las ik de ademriem uit met een USB-dongle en een pc. Daar kwam ik niet verder mee voor het project, want Reachy moet mijn ademhaling zelf kunnen gebruiken. In Sprint 2 ga ik dat dus oplossen.</p>
+      <p>Dit zijn de drie doelen.</p>
       <ul>
-        <li>Geavanceerde dataverwerking: ruwe sensorwaarden betrouwbaar filteren en omzetten naar bruikbare statussen.</li>
-        <li>Robotmodi: verschillende reactiemodi (mirror, interpret, adapt) implementeren die reageren op de verwerkte sensordata.</li>
+        <li><strong>Geavanceerde dataverwerking.</strong> De ruwe waarden van de riem omzetten in iets bruikbaars, zoals inademen, uitademen, pauze of stil, plus de frequentie en de diepte.</li>
+        <li><strong>De riem rechtstreeks uitlezen.</strong> Een ESP32 leest de riem uit, zodat de laptop dat niet meer hoeft te doen. Reachy kan dan antwoorden op de vraag &ldquo;Hoe adem ik nu?&rdquo;.</li>
+        <li><strong>Testen met mensen.</strong> Op het Society 5.0 festival laten we Reachy zien en leren we wat beter kan.</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>Mijn team</h2>
+      <ul>
+        <li><strong>Can (ik)</strong> doet de ademriem, de ESP32 en de ademtool in de Reachy-app.</li>
+        <li><strong>Rio</strong> doet de pulssensor. Zijn werk was mijn voorbeeld, en we maakten samen de eerste versie van de ademdata in de app.</li>
+        <li><strong>Dipin en Yusuf</strong> maakten de antenne- en hoofdbewegingen van de Mirror-modus.</li>
+        <li><strong>Yusuf en Niek</strong> schreven documentatie die ik gebruikte. Yusuf nam ook de testformulieren op het festival af.</li>
+        <li><strong>Bin Yu</strong> is de opdrachtgever (Digital Life, HvA). Hij bedacht de Mirror-modus.</li>
+        <li><strong>Claar</strong> is onze mentor.</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>Het begin van de sprint</h2>
+      <p>De sprint begon op maandag 19 oktober. Op dinsdag 20 oktober, de dag voordat ik mijn Reachy bouwde, kreeg ik hem. Toen hebben we met Claar besproken wat er in deze sprint zou gebeuren. Daarna maakte ik met mijn team job stories in GitLab, waarbij ieder zijn eigen kreeg. Met zo&rsquo;n job story kun je makkelijk branches maken.</p>
+      <p>Twee daarvan waren voor mij.</p>
+      <ul>
+        <li><strong>Reachy bouwen.</strong> &ldquo;When we are preparing Reachy for use, we want to assemble the robot correctly, so that we can use it for further development and testing.&rdquo; Dit is pagina 1.</li>
+        <li><strong>De ademdata op de robot.</strong> &ldquo;When we are using the breathing sensor with Reachy, we want to make the sensor data available on the robot, so that Reachy can use this data during interactions.&rdquo; Dit zijn pagina 2 tot en met 6.</li>
+      </ul>
+      <div class="figure-row">
+        <figure>
+        <img src="sprint2/gitlab-39.jpg" alt="GitLab-issue 39: Reachy bouwen">
+        <figcaption>GitLab-issue #39, stand in de eerste week van Sprint 2.</figcaption>
+      </figure>
+        <figure>
+        <img src="sprint2/gitlab-42.jpg" alt="GitLab-issue 42: ademdata beschikbaar op de robot">
+        <figcaption>GitLab-issue #42, stand in de eerste week van Sprint 2.</figcaption>
+      </figure>
+      </div>
+    </section>
+    <section class="card">
+      <h2>Tijdlijn</h2>
+      <ul>
+        <li><strong>di 20 okt.</strong> Ik krijg mijn Reachy. Overleg met Claar en job stories maken.</li>
+        <li><strong>wo 21 okt.</strong> Reachy bouwen (51 stappen, van 14:59 tot 20:13). <a href="sprint-2-reachy-bouwen.html" style="color:#002ea3">Pagina 1</a></li>
+        <li><strong>do 22 okt.</strong> Buiten het project. Onderzoek naar het flashen van een e-paper prijskaartje. <a href="sprint-2-epaper.html" style="color:#002ea3">Pagina 11</a></li>
+        <li><strong>vr 23 okt.</strong> Een opdracht field testing, buiten het project. <a href="sprint-2-seminar.html" style="color:#002ea3">Pagina 10</a></li>
+        <li><strong>di 27 okt.</strong> Een kennisquiz, buiten het project. <a href="sprint-2-seminar.html" style="color:#002ea3">Pagina 10</a></li>
+        <li><strong>do 29 okt.</strong> Seminar Embedded Augmentation, buiten het project. Ik was discussiemoderator. <a href="sprint-2-seminar.html" style="color:#002ea3">Pagina 10</a></li>
+        <li><strong>vr 30 okt.</strong> Met Rio de Reachy-app opschonen en de eerste versie van <code>models.py</code> en de client maken. Ik begin echt met het uitlezen van de riem via Bluetooth. <a href="sprint-2-ademdata.html" style="color:#002ea3">Pagina 2 en 4</a></li>
+        <li><strong>zo 1 nov.</strong> State, depth en rate gemaakt, de eerste mock van de ademriem en de start van de WebSocket. <a href="sprint-2-ademdata.html" style="color:#002ea3">Pagina 3, 4 en 6</a></li>
+        <li><strong>ma 2 nov.</strong> Idee voor een betere mock, nog als concept.</li>
+        <li><strong>di 3 nov.</strong> Het uitlezen werkt helemaal, de ademtool staat in de app, de betere mock is toegevoegd en Reachy gaat aan met de app vanaf mijn laptop. <a href="sprint-2-ademtool.html" style="color:#002ea3">Pagina 5, 6 en 8</a></li>
+        <li><strong>wo 4 nov.</strong> Society 5.0 festival in het Volkshotel. <a href="sprint-2-festival.html" style="color:#002ea3">Pagina 9</a></li>
+        <li><strong>do 5 nov.</strong> Thuis, de app kon de robot niet vinden. <a href="sprint-2-echte-robot.html" style="color:#002ea3">Pagina 8</a></li>
+        <li><strong>di 10 nov.</strong> Met Claar in de les bespreken hoe we Reachy &ldquo;dark&rdquo; maken.</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>Hoe de keten werkt</h2>
+      <p>De riem stuurt mijn ademhaling via Bluetooth naar de ESP32. De ESP32 rekent uit wat dat betekent en stuurt het via wifi door naar de Reachy-app op mijn laptop. De app heeft een ademtool, en daarmee kan Reachy mijn ademhaling opvragen.</p>
+      <p><span class="tag">Riem</span> → <span class="tag">ESP32</span> → <span class="tag">WebSocket (wifi)</span> → <span class="tag">Reachy-app (laptop)</span> → <span class="tag">Reachy</span></p>
+      <p>Ik heb de pagina&rsquo;s opgedeeld in kleine stukken. Elke pagina heeft een datum, mijn stappen en hoe ik problemen oploste.</p>
+    </section>
+    <section class="card">
+      <h2>Pagina's van deze sprint</h2>
+      <ul>
+        <li><a href="sprint-2-reachy-bouwen.html" style="color:#002ea3">1. Reachy bouwen</a></li>
+        <li><a href="sprint-2-bluetooth.html" style="color:#002ea3">2. Riem uitlezen met de ESP32 (Bluetooth)</a></li>
+        <li><a href="sprint-2-websocket.html" style="color:#002ea3">3. ESP32 naar de app (WebSocket)</a></li>
+        <li><a href="sprint-2-ademdata.html" style="color:#002ea3">4. State, ademfrequentie en diepte</a></li>
+        <li><a href="sprint-2-ademtool.html" style="color:#002ea3">5. De ademtool in de Reachy-app</a></li>
+        <li><a href="sprint-2-mockdata.html" style="color:#002ea3">6. Mockdata voor de ademriem</a></li>
+        <li><a href="sprint-2-netwerk.html" style="color:#002ea3">7. Netwerkproblemen</a></li>
+        <li><a href="sprint-2-echte-robot.html" style="color:#002ea3">8. Verbinden met de echte robot</a></li>
+        <li><a href="sprint-2-festival.html" style="color:#002ea3">9. Society 5.0 festival</a></li>
+        <li><a href="sprint-2-seminar.html" style="color:#002ea3">10. Seminar Embedded Augmentation (buiten het project)</a></li>
+        <li><a href="sprint-2-epaper.html" style="color:#002ea3">11. E-paper prijskaartje flashen (eigen onderzoek)</a></li>
+        <li><a href="sprint-2-afsluiting.html" style="color:#002ea3">Afsluiting van Sprint 2</a></li>
       </ul>
     </section>
 
-    <section class="card">
-      <h2>Status</h2>
-      <p>Deze sprint is nog niet begonnen. Hier komt mijn DevLog zodra de sprint loopt.</p>
-    </section>
-
-    <div class="button-container">
-      <a href="index.html" class="back">← Terug naar home</a>
-    </div>
+    <div class="pagenav"><span></span><a href="sprint-2-reachy-bouwen.html">1 Reachy bouwen →</a></div>
   </main>
+</div>
 </body>
 </html>

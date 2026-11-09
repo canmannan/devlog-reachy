@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DevLog Sprint 2 - 9. Society 5.0 festival</title>
+  <link rel="stylesheet" href="stylish.css">
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jersey+10&display=swap" rel="stylesheet">
+</head>
+<body class="devlog sprint2">
+<div class="s2-layout">
+  <nav class="s2-side">
+    <p class="s2-title">Sprint 2</p>
+      <a href="sprint-2.html">Overzicht</a>
+      <a href="sprint-2-reachy-bouwen.html">1 Reachy bouwen</a>
+      <a href="sprint-2-bluetooth.html">2 Bluetooth</a>
+      <a href="sprint-2-websocket.html">3 WebSocket</a>
+      <a href="sprint-2-ademdata.html">4 Ademdata</a>
+      <a href="sprint-2-ademtool.html">5 Ademtool</a>
+      <a href="sprint-2-mockdata.html">6 Mockdata</a>
+      <a href="sprint-2-netwerk.html">7 Netwerk</a>
+      <a href="sprint-2-echte-robot.html">8 Echte robot</a>
+      <a href="sprint-2-festival.html" class="actief">9 Festival</a>
+      <a href="sprint-2-seminar.html">10 Seminar</a>
+      <a href="sprint-2-epaper.html">11 E-paper</a>
+      <a href="sprint-2-afsluiting.html">Afsluiting</a>
+      <a class="s2-home" href="index.html">← Home</a>
+  </nav>
+  <main class="devlog-page">
+    <h1>9. Society 5.0 festival</h1>
+    <p class="intro">We wilden Reachy testen met bezoekers en feedback ophalen.</p>
+    <p class="datum">wo 4 november 2026, Volkshotel</p>
+
+    <section class="card">
+      <h2>Wat we deden</h2>
+      <p>Op woensdag 4 november was het Society 5.0 festival in het Volkshotel. We lieten bezoekers Reachy proberen. Meestal lieten we Mirror zien met mockdata, zodat we de riem niet bij elke bezoeker opnieuw hoefden in te stellen. Bezoekers konden de ademriem ook zelf dragen, en dan las Reachy hun echte ademhaling uit.</p>
+      <p>Mirror is de modus van onze opdrachtgever Bin Yu. De robot spiegelt hoe jij bent. Adem je veel, dan beweegt hij veel. Elk teamlid had een rol bij het bouwen van Mirror. De antenne- en hoofdbewegingen waren van Yusuf en Dipin. Mijn ademdata (state, rate en depth) bepaalt hoe Reachy zich gedraagt. Verandert mijn ademhaling, dan verandert het gedrag van de robot.</p>
+      <figure class="figure-small">
+        <img src="sprint2/festival-blur.jpg" alt="Bij onze tafel op het festival met een laptop en Reachy">
+        <figcaption>Onze tafel op het festival. Een teamgenoot kijkt mee op de laptop, Reachy staat erachter. Andere gezichten heb ik onherkenbaar gemaakt.</figcaption>
+      </figure>
+    </section>
+    <section class="card">
+      <h2>Wat de bezoekers zeiden</h2>
+      <p>Yusuf nam bij drie bezoekers een kort testformulier af (Interpret en Mirror). Ik noem hier alleen wat ze samen lieten zien, en geen namen.</p>
+      <ul>
+        <li>Alle drie begrepen wat Reachy doet en leken comfortabel.</li>
+        <li>Bij Mirror merkten twee duidelijk dat Reachy hun ademhaling volgt, en één deels. De koppeling met de antennes was voor alle drie duidelijk.</li>
+        <li>Twee kozen Mirror om opnieuw te gebruiken en één koos Interpret.</li>
+        <li>Alle drie noemden datagebruik als zorg. Bij twee kwam daar privacy of controle bij, bij één verkeerde interpretatie.</li>
+        <li>Ze zouden Reachy wel gebruiken op het werk, bij een therapeut en in het ziekenhuis. Ze zouden hem niet gebruiken in de slaapkamer of thuis.</li>
+        <li>Ze zeiden onder andere &ldquo;heeft veel potentie&rdquo;, &ldquo;cute stem, wel beetje attitude&rdquo; en &ldquo;schattig, vertrouwelijk gesprek&rdquo;.</li>
+      </ul>
+      <p>Het zijn maar drie bezoekers, dus dit zegt nog niet veel. Het geeft wel een eerste idee, en de zorg om data past bij het &ldquo;dark&rdquo; deel van ons project.</p>
+    </section>
+    <section class="card question">
+      <h2>Feedback van Claar</h2>
+      <p>De echte feedback kwam van onze mentor Claar. Ze zei dat we ons in Sprint 3 moeten richten op hoe we de robot <strong>&ldquo;dark&rdquo;</strong> kunnen maken. Als we gaan brainstormen, kunnen we heel veel ideeën vinden. Ze wil dit op <strong>di 10 november</strong> met ons bespreken tijdens de les.</p>
+    </section>
+    <section class="card probleem">
+      <p><span class="label">Probleem.</span> Het wifi in het Volkshotel was erg slecht, en Reachy kon niet verbinden omdat hij alleen werkt met een netwerk met wachtwoord.</p>
+    </section>
+    <section class="card oplossing">
+      <p><span class="label">Oplossing.</span> We gebruikten de hotspot van Yusuf op 2,4 GHz. Die werkte met alle microcontrollers en met Reachy. In mijn ESP32-script moest ik daarvoor de netwerknaam en het wachtwoord van die hotspot invullen.</p>
+    </section>
+    <section class="card probleem">
+      <p><span class="label">Probleem.</span> Het gehoor van Reachy. Het was luid en hij kon ons niet goed horen. We moesten heel dicht bij Reachy staan. We konden dit niet op tijd oplossen.</p>
+    </section>
+    <section class="card oplossing">
+      <p><span class="label">Oplossing.</span> Nog niet opgelost. De app heeft al een chatvenster waarin je de berichten tussen de gebruiker en Reachy kunt lezen, maar je kunt er nog niet in typen. Volgende keer voegen we typen toe, zodat je ook kunt praten met Reachy als het te luid is.</p>
+    </section>
+    <section class="card">
+      <h2>Wat ik hieruit leer</h2>
+      <p>Een demo in een drukke ruimte is anders dan testen op school. Geluid en wifi zijn dingen die ik niet vooraf had getest. Een tekstkanaal naast spraak maakt Reachy bruikbaar op plekken waar het luid is.</p>
+    </section>
+
+    <div class="pagenav"><a href="sprint-2-echte-robot.html">← 8 Echte robot</a><a href="sprint-2-seminar.html">10 Seminar →</a></div>
+  </main>
+</div>
+</body>
+</html>

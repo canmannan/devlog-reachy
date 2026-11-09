@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DevLog Sprint 2 - 4. State, ademfrequentie en diepte</title>
+  <link rel="stylesheet" href="stylish.css">
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jersey+10&display=swap" rel="stylesheet">
+</head>
+<body class="devlog sprint2">
+<div class="s2-layout">
+  <nav class="s2-side">
+    <p class="s2-title">Sprint 2</p>
+      <a href="sprint-2.html">Overzicht</a>
+      <a href="sprint-2-reachy-bouwen.html">1 Reachy bouwen</a>
+      <a href="sprint-2-bluetooth.html">2 Bluetooth</a>
+      <a href="sprint-2-websocket.html">3 WebSocket</a>
+      <a href="sprint-2-ademdata.html" class="actief">4 Ademdata</a>
+      <a href="sprint-2-ademtool.html">5 Ademtool</a>
+      <a href="sprint-2-mockdata.html">6 Mockdata</a>
+      <a href="sprint-2-netwerk.html">7 Netwerk</a>
+      <a href="sprint-2-echte-robot.html">8 Echte robot</a>
+      <a href="sprint-2-festival.html">9 Festival</a>
+      <a href="sprint-2-seminar.html">10 Seminar</a>
+      <a href="sprint-2-epaper.html">11 E-paper</a>
+      <a href="sprint-2-afsluiting.html">Afsluiting</a>
+      <a class="s2-home" href="index.html">← Home</a>
+  </nav>
+  <main class="devlog-page">
+    <h1>4. State, ademfrequentie en diepte</h1>
+    <p class="intro">De ruwe waarde van de riem moest iets worden waar Reachy over kan praten.</p>
+    <p class="datum">vr 30 oktober (voorwerk met Rio) en zo 1 november 2026 (gebouwd)</p>
+
+    <section class="card">
+      <h2>Voorwerk met Rio (vr 30 okt)</h2>
+      <p>Op vrijdag 30 oktober deed ik onderzoek met Rio. We maakten de Reachy-app kleiner. Als je de simulatiebestanden helemaal downloadt, zitten er heel veel <code>.py</code>-bestanden in en die moesten minder worden.</p>
+      <p>Daarnaast maakten we samen de eerste versies van <code>models.py</code> en de client voor de ademdata. We begonnen met <code>models.py</code>, waarin we alleen <code>v</code> en <code>t</code> hadden.</p>
+      <pre>from dataclasses import dataclass
+
+
+@dataclass(frozen=True)
+class BreathingData:
+    t: float
+    v: float</pre>
+      <p>Later kwamen daar <code>state</code>, <code>rate</code> en <code>depth</code> bij.</p>
+    </section>
+    <section class="card">
+      <h2>Wat ik maakte (zo 1 nov)</h2>
+      <p>De riem geeft alleen een ruwe waarde. Reachy kan daar niets mee, dus ik moest er iets van maken waar hij over kan praten. Dat doet de ESP32 elke seconde, over de laatste ongeveer 30 seconden. Hij rekent drie dingen uit.</p>
+      <ul>
+        <li><strong>State</strong> is inademen, uitademen, pauze of stil.</li>
+        <li><strong>rate</strong> is het aantal ademhalingen per minuut. Ik tel hoe vaak het signaal omhoog door het gemiddelde gaat.</li>
+        <li><strong>depth</strong> is een waarde van 0 tot 1, vergeleken met de diepste ademhaling tot nu toe.</li>
+      </ul>
+      <p>Eerst maak ik de ruwe waarde schoon. Ik reken hem om naar -1 tot 1 met een rollend minimum en maximum over 500 metingen, en ik maak hem vloeiender met een gemiddelde dat nieuwe metingen zwaarder telt (EMA, alpha 0,25). De eerste 70 metingen sla ik over.</p>
+      <figure>
+        <img src="sprint2/json-still.jpg" alt="Terminal met JSON-berichten: state still, rate null, depth 0.02">
+        <figcaption>Als de riem stil ligt, zonder ademhaling, meldt het systeem <code>still</code> en geeft het geen frequentie (<code>rate</code> is <code>null</code>).</figcaption>
+      </figure>
+    </section>
+    <section class="card probleem">
+      <p><span class="label">Probleem.</span> De diepte was altijd ongeveer 2 en &ldquo;still&rdquo; werd nooit herkend. Ik berekende de diepte op de genormaliseerde waarde, maar normaliseren rekt het signaal altijd naar dezelfde grootte. Daardoor leek lichte ademhaling net zo diep als diepe.</p>
+    </section>
+    <section class="card oplossing">
+      <p><span class="label">Oplossing.</span> Ik gebruik nu het ruwe bereik van de riem (maximum min minimum). Onder een minimum bereik van 40 is de state &ldquo;still&rdquo;. De diepte is het ruwe bereik gedeeld door het grootste bereik dat ik tot nu toe zag.</p>
+    </section>
+    <section class="card probleem">
+      <p><span class="label">Probleem.</span> Aan het begin kreeg ik rare waarden, omdat de eerste metingen extreme minima en maxima gaven.</p>
+    </section>
+    <section class="card oplossing">
+      <p><span class="label">Oplossing.</span> Ik sla de eerste 70 metingen (ongeveer 3,5 seconde, <code>WARMUP</code>) over.</p>
+    </section>
+    <section class="card probleem">
+      <p><span class="label">Probleem.</span> Ik had in de app een apart bestand <code>analysis.py</code> gemaakt. De pulsclient van Rio heeft dat niet.</p>
+    </section>
+    <section class="card oplossing">
+      <p><span class="label">Oplossing.</span> Ik verplaatste de analyse naar de ESP32. De app ontvangt nu de klare waarden, net als bij de pulssensor.</p>
+    </section>
+    <section class="card">
+      <h2>Wat ik nog niet heb gecontroleerd</h2>
+      <ul>
+        <li>Ik neem aan dat een stijgende waarde inademen is. Dat heb ik nog niet gecontroleerd tegen mijn eigen ademhaling.</li>
+        <li>De getallen 40 (minimum bereik) en 300 (referentiebereik) zijn schattingen, geen gemeten waarden.</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>Wat ik hieruit leer</h2>
+      <p>Een waarde die er goed uitziet, kan toch fout zijn. Ik vroeg me af waar de diepte vandaan kwam en testte met de riem om en niet om. Zo vond ik het eerste probleem.</p>
+    </section>
+    <section class="card bronnen">
+      <h2>Bronnen</h2>
+      <ul>
+        <li>Recognizing Physiological and Emotional states with Sensors (Team9 Documentation, van Yusuf en Niek). <a href="https://studio.dev.hihva.nl/dark-tech/projects/2026-2027-semester-1/when-robots-know-your-body/research/physiological-state-research/" style="color:#002ea3">https://studio.dev.hihva.nl/dark-tech/projects/2026-2027-semester-1/when-robots-know-your-body/research/physiological-state-research/</a>. Dit is een grote documentatie waar alles wordt uitgelegd. Ik pakte alleen wat ik nodig had voor het gemiddelde.</li>
+      </ul>
+    </section>
+
+    <div class="pagenav"><a href="sprint-2-websocket.html">← 3 WebSocket</a><a href="sprint-2-ademtool.html">5 Ademtool →</a></div>
+  </main>
+</div>
+</body>
+</html>

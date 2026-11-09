@@ -193,3 +193,110 @@ body.devlog {
   .devlog-page h1 { font-size: 44px; }
   .devlog-page .figure-row { grid-template-columns: 1fr; }
 }
+
+/* ===== DevLog Sprint 2: kleine zijbalk, geen lijn ===== */
+body.sprint2 .s2-layout {
+  display: flex;
+  align-items: flex-start;
+  max-width: 1040px;
+  margin: 0 auto;
+}
+
+.s2-side {
+  position: sticky;
+  top: 0;
+  flex: 0 0 150px;
+  padding: 40px 10px 20px 20px;
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+.s2-side .s2-title {
+  color: #fee500;
+  font-size: 24px;
+  margin: 0 0 12px;
+}
+
+.s2-side a {
+  display: block;
+  color: white;
+  text-decoration: none;
+  padding: 4px 8px;
+  margin: 0 0 2px -8px;
+  border-radius: 8px;
+}
+
+.s2-side a:hover { background: rgba(255, 255, 255, 0.15); }
+.s2-side a.actief { background: #fee500; color: #0f0202; }
+.s2-side .s2-home { margin-top: 16px; opacity: 0.8; font-size: 18px; }
+
+body.sprint2 .devlog-page { flex: 1; min-width: 0; margin: 0; }
+
+.devlog-page .datum {
+  display: inline-block;
+  background: #fee500;
+  color: #0f0202;
+  padding: 0 10px;
+  border-radius: 8px;
+  font-size: 20px;
+  margin: 0 0 14px;
+}
+
+.devlog-page .probleem { background: #ffe1e1; }
+.devlog-page .oplossing { background: #dff7e6; }
+.devlog-page .uitleg { background: #e4ecff; }
+.devlog-page .bronnen { font-size: 18px; }
+.devlog-page .bronnen li { margin: 0 0 6px; word-break: break-word; }
+.devlog-page .card .label { font-weight: bold; }
+
+.devlog-page pre {
+  background: #1b1b1b;
+  color: #e8e8e8;
+  padding: 12px;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-size: 16px;
+  line-height: 1.3;
+}
+
+.devlog-page code { font-size: 0.85em; }
+
+.devlog-page table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 18px;
+  margin: 8px 0 12px;
+}
+.devlog-page th, .devlog-page td {
+  border: 2px solid #030000;
+  padding: 6px 8px;
+  text-align: left;
+  vertical-align: top;
+}
+.devlog-page th { background: #ddd; }
+
+.devlog-page .figure-small { max-width: 360px; }
+.devlog-page .figure-narrow { max-width: 300px; margin-left: auto; margin-right: auto; }
+
+.devlog-page .pagenav {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 24px 0 8px;
+}
+.devlog-page .pagenav a {
+  background: #007acc;
+  color: white;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-weight: bold;
+}
+.devlog-page .pagenav a:hover { background: #99008a; }
+
+@media (max-width: 760px) {
+  body.sprint2 .s2-layout { display: block; }
+  .s2-side { position: static; padding: 20px 20px 0; font-size: 18px; }
+  .s2-side a { display: inline-block; margin: 0 4px 4px 0; padding: 2px 8px; background: rgba(255,255,255,0.12); }
+  .s2-side .s2-home { display: inline-block; }
+}

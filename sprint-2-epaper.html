@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DevLog Sprint 2 - 11. E-paper prijskaartje flashen (eigen onderzoek)</title>
+  <link rel="stylesheet" href="stylish.css">
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jersey+10&display=swap" rel="stylesheet">
+</head>
+<body class="devlog sprint2">
+<div class="s2-layout">
+  <nav class="s2-side">
+    <p class="s2-title">Sprint 2</p>
+      <a href="sprint-2.html">Overzicht</a>
+      <a href="sprint-2-reachy-bouwen.html">1 Reachy bouwen</a>
+      <a href="sprint-2-bluetooth.html">2 Bluetooth</a>
+      <a href="sprint-2-websocket.html">3 WebSocket</a>
+      <a href="sprint-2-ademdata.html">4 Ademdata</a>
+      <a href="sprint-2-ademtool.html">5 Ademtool</a>
+      <a href="sprint-2-mockdata.html">6 Mockdata</a>
+      <a href="sprint-2-netwerk.html">7 Netwerk</a>
+      <a href="sprint-2-echte-robot.html">8 Echte robot</a>
+      <a href="sprint-2-festival.html">9 Festival</a>
+      <a href="sprint-2-seminar.html">10 Seminar</a>
+      <a href="sprint-2-epaper.html" class="actief">11 E-paper</a>
+      <a href="sprint-2-afsluiting.html">Afsluiting</a>
+      <a class="s2-home" href="index.html">← Home</a>
+  </nav>
+  <main class="devlog-page">
+    <h1>11. E-paper prijskaartje flashen (eigen onderzoek)</h1>
+    <p class="intro">Ik wilde uitzoeken hoe je een e-paper prijskaartje met eigen firmware kunt flashen.</p>
+    <p class="datum">do 22 oktober 2026</p>
+
+    <section class="card uitleg">
+      <h2>Dit hoort niet bij het project</h2>
+      <p>Dit onderzoek hoort niet bij Bio-Reachy. Ik zet het hier omdat het laat zien hoe ik iets nieuws uitzoek.</p>
+    </section>
+    <section class="card">
+      <h2>Waarom</h2>
+      <p>Ik had eerder een video gezien waarin iemand in de Jumbo een e-paper prijskaartje flasht met een Flipper Zero. Dat vond ik cool, dus ik wilde zelf uitzoeken hoe dat werkt.</p>
+    </section>
+    <section class="card">
+      <h2>Wat ik deed</h2>
+      <p>Ik begon met informatie over het kaartje zoeken in de FCC-database. De chipset is een SLT-EM007 van SoluM/Samsung, met een ZBS243-chip. Daarna zocht ik uit hoe je zo'n kaartje flasht. Dat kan alleen via een extern apparaat zoals een Arduino of een ESP32, want het kaartje zelf heeft geen USB. Het project OpenEPaperLink en de ZBS_Flasher van atc1441 ondersteunen dit type kaartje.</p>
+      <p>Ik heb een Arduino Nano ESP32 die op 3,3 V werkt. Voor dat bord bestaat geen kant-en-klare ZBS_Flasher-build. Daarom installeerde ik PlatformIO om de code te kunnen draaien, en paste ik in <code>platformio.ini</code> de pinnen en instellingen aan op mijn Nano.</p>
+      <figure>
+        <img src="sprint2/platformio-ini.jpg" alt="platformio.ini met de pinnen voor de Nano ESP32">
+        <figcaption>Mijn aangepaste platformio.ini met de pinnen voor de Nano ESP32.</figcaption>
+      </figure>
+      <p>Voordat je flasht, maak je eerst een backup van de originele firmware en het MAC-adres van het kaartje, zodat je die niet kwijtraakt. Een segmented kaartje toont alleen cijfers en vaste symbolen en geen plaatjes, dus veel kun je er niet mee tonen. Voor het flashen moet ik het kaartje met draadjes aan de testpads solderen. Ik heb eerder gesoldeerd, dus dat kan ik een beetje.</p>
+    </section>
+    <section class="card probleem">
+      <p><span class="label">Probleem.</span> De code compileerde wel, maar het uploaden gaf de fout <code>No DFU capable USB device</code>. PlatformIO gaf ook de melding <code>command 'platformio-ide.upload' not found</code>.</p>
+    </section>
+    <section class="card oplossing">
+      <p><span class="label">Oplossing.</span> Mijn computer miste de driver voor de Nano ESP32. Ik installeerde Arduino IDE 2 en daarin het pakket Arduino ESP32 Boards (van Arduino). Daarna werkte het uploaden.</p>
+    </section>
+    <section class="card">
+      <div class="figure-row">
+        <figure>
+        <img src="sprint2/pio-melding.jpg" alt="Melding in PlatformIO">
+        <figcaption>De melding in PlatformIO.</figcaption>
+      </figure>
+        <figure>
+        <img src="sprint2/arduino-ide.jpg" alt="Arduino IDE met Arduino ESP32 Boards geinstalleerd">
+        <figcaption>Arduino ESP32 Boards geïnstalleerd in de Arduino IDE.</figcaption>
+      </figure>
+      </div>
+    </section>
+    <section class="card">
+      <h2>Hoe ver ik kwam</h2>
+      <p>Het uploaden naar de Nano lukte. Het solderen en het flashen van het kaartje zelf heb ik nog niet gedaan, omdat we een les hadden en het kaartje niet mee naar huis mochten. Ik weet wel wat ik daarna moet doen.</p>
+    </section>
+    <section class="card">
+      <h2>Wat ik hieruit leer</h2>
+      <p>Een bord heeft de juiste driver nodig voordat je erop kunt uploaden. Ook leerde ik dat je eerst een backup maakt voordat je iets overschrijft. Verder hielp het dat er al een project en een flasher bestonden, zodat ik niet alles zelf hoefde uit te zoeken.</p>
+    </section>
+    <section class="card bronnen">
+      <h2>Bronnen</h2>
+      <ul>
+        <li>FCC-database, apparaatinformatie. <a href="https://apps.fcc.gov/oetcf/eas/reports/GenericSearchResult.cfm" style="color:#002ea3">https://apps.fcc.gov/oetcf/eas/reports/GenericSearchResult.cfm</a></li>
+        <li>OpenEPaperLink wiki, Segmented Tag SLT-EM007 UK.</li>
+        <li>atc1441, ZBS_Flasher (GitHub). <a href="https://github.com/atc1441/ZBS_Flasher" style="color:#002ea3">https://github.com/atc1441/ZBS_Flasher</a></li>
+        <li>mysku.club, blogpost over dit kaartje. <a href="https://mysku.club/blog/diy/97251.html" style="color:#002ea3">https://mysku.club/blog/diy/97251.html</a></li>
+        <li>YouTube-video over het flashen van een prijskaartje met een Flipper Zero. <a href="https://www.youtube.com/watch?v=BvOkOANCmMk" style="color:#002ea3">https://www.youtube.com/watch?v=BvOkOANCmMk</a></li>
+      </ul>
+    </section>
+
+    <div class="pagenav"><a href="sprint-2-seminar.html">← 10 Seminar</a><a href="sprint-2-afsluiting.html">Afsluiting →</a></div>
+  </main>
+</div>
+</body>
+</html>

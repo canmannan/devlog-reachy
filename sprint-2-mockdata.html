@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DevLog Sprint 2 - 6. Mockdata voor de ademriem</title>
+  <link rel="stylesheet" href="stylish.css">
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jersey+10&display=swap" rel="stylesheet">
+</head>
+<body class="devlog sprint2">
+<div class="s2-layout">
+  <nav class="s2-side">
+    <p class="s2-title">Sprint 2</p>
+      <a href="sprint-2.html">Overzicht</a>
+      <a href="sprint-2-reachy-bouwen.html">1 Reachy bouwen</a>
+      <a href="sprint-2-bluetooth.html">2 Bluetooth</a>
+      <a href="sprint-2-websocket.html">3 WebSocket</a>
+      <a href="sprint-2-ademdata.html">4 Ademdata</a>
+      <a href="sprint-2-ademtool.html">5 Ademtool</a>
+      <a href="sprint-2-mockdata.html" class="actief">6 Mockdata</a>
+      <a href="sprint-2-netwerk.html">7 Netwerk</a>
+      <a href="sprint-2-echte-robot.html">8 Echte robot</a>
+      <a href="sprint-2-festival.html">9 Festival</a>
+      <a href="sprint-2-seminar.html">10 Seminar</a>
+      <a href="sprint-2-epaper.html">11 E-paper</a>
+      <a href="sprint-2-afsluiting.html">Afsluiting</a>
+      <a class="s2-home" href="index.html">← Home</a>
+  </nav>
+  <main class="devlog-page">
+    <h1>6. Mockdata voor de ademriem</h1>
+    <p class="intro">Ik wilde de app kunnen testen zonder riem.</p>
+    <p class="datum">zo 1 november (eerste versie), ma 2 november (concept) en di 3 november 2026 (betere versie)</p>
+
+    <section class="card">
+      <h2>Waarom een mock</h2>
+      <ul>
+        <li><strong>Samenwerken.</strong> Rio maakte een mock voor de pulssensor, dus ik maakte er ook een voor de ademriem.</li>
+        <li><strong>Het festival.</strong> Bij het Society 5.0 festival kun je de riem niet elke keer opnieuw instellen. Dat kost te veel tijd.</li>
+        <li><strong>Testen.</strong> Ik was nog bezig om Reachy de riem goed te laten aflezen, en met een mock kan ik testen zonder riem.</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>Wat ik maakte</h2>
+      <p>Ik voegde op zo 1 november een bestand <code>breathing.js</code> toe aan de Node.js mock-server (<code>mock.js</code>). De server vindt elk bestand in de map <code>modes/</code> zelf, dus ik hoefde de server niet aan te passen. Starten doe je met <code>node mock.js --breathing</code>.</p>
+      <p>De eerste versie stuurde alleen <code>t</code> en <code>v</code>, 100 keer per seconde. Die gebruikte ik om te zien of de verbinding echt draaide. Op ma 2 november schreef ik het idee voor een betere versie op, maar dat was nog een concept. Op di 3 november voegde ik de betere versie toe.</p>
+      <figure>
+        <img src="sprint2/mock-pulse-rio.jpg" alt="Terminal van de mock-server: Mock mode pulse, ws://localhost:8080">
+        <figcaption>Het voorbeeld van Rio. Zijn mock voor de pulssensor draait op <code>ws://localhost:8080</code>. Mijn ademmock gebruikt dezelfde server.</figcaption>
+      </figure>
+    </section>
+    <section class="card probleem">
+      <p><span class="label">Probleem.</span> De eerste versie leek niet op de echte riem. De sinus loopt 0,15 per meting bij een interval van 10 ms, dus één ademhaling duurt 0,42 seconde. Dat is ongeveer 143 ademhalingen per minuut, terwijl een mens er 12 tot 20 doet. De mock stuurde ook alleen <code>t</code> en <code>v</code>, terwijl de echte ESP32 ook <code>state</code>, <code>rate</code> en <code>depth</code> stuurt.</p>
+    </section>
+    <section class="card oplossing">
+      <p><span class="label">Oplossing.</span> In de betere versie stuur ik 20 metingen per seconde (net als de echte riem), precies 15 ademhalingen per minuut, en de velden <code>state</code>, <code>rate</code> en <code>depth</code>. Ik testte de generator met Node. In 60 seconden telde ik 15 ademhalingen.</p>
+    </section>
+    <section class="card uitleg">
+      <h2>Tip</h2>
+      <p>De mock-server luistert alleen op 127.0.0.1, dus alleen mijn eigen laptop kan er verbinding mee maken. In <code>.env</code> zet ik <code>BREATHING_SENSOR_HOST=localhost:8080</code>.</p>
+    </section>
+    <section class="card">
+      <h2>Wat ik hieruit leer</h2>
+      <p>Mockdata is alleen nuttig als het op de echte data lijkt. Ik had de getallen eerder moeten controleren in plaats van te denken dat een sinus goed genoeg is.</p>
+    </section>
+    <section class="card bronnen">
+      <h2>Bronnen</h2>
+      <ul>
+        <li>ws, een Node.js WebSocket-bibliotheek. <a href="https://www.npmjs.com/package/ws" style="color:#002ea3">https://www.npmjs.com/package/ws</a></li>
+        <li>Mocking Sensors (Team9 Documentation), de mock-documentatie van het team.</li>
+      </ul>
+    </section>
+
+    <div class="pagenav"><a href="sprint-2-ademtool.html">← 5 Ademtool</a><a href="sprint-2-netwerk.html">7 Netwerk →</a></div>
+  </main>
+</div>
+</body>
+</html>

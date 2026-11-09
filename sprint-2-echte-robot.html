@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DevLog Sprint 2 - 8. Verbinden met de echte robot</title>
+  <link rel="stylesheet" href="stylish.css">
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jersey+10&display=swap" rel="stylesheet">
+</head>
+<body class="devlog sprint2">
+<div class="s2-layout">
+  <nav class="s2-side">
+    <p class="s2-title">Sprint 2</p>
+      <a href="sprint-2.html">Overzicht</a>
+      <a href="sprint-2-reachy-bouwen.html">1 Reachy bouwen</a>
+      <a href="sprint-2-bluetooth.html">2 Bluetooth</a>
+      <a href="sprint-2-websocket.html">3 WebSocket</a>
+      <a href="sprint-2-ademdata.html">4 Ademdata</a>
+      <a href="sprint-2-ademtool.html">5 Ademtool</a>
+      <a href="sprint-2-mockdata.html">6 Mockdata</a>
+      <a href="sprint-2-netwerk.html">7 Netwerk</a>
+      <a href="sprint-2-echte-robot.html" class="actief">8 Echte robot</a>
+      <a href="sprint-2-festival.html">9 Festival</a>
+      <a href="sprint-2-seminar.html">10 Seminar</a>
+      <a href="sprint-2-epaper.html">11 E-paper</a>
+      <a href="sprint-2-afsluiting.html">Afsluiting</a>
+      <a class="s2-home" href="index.html">← Home</a>
+  </nav>
+  <main class="devlog-page">
+    <h1>8. Verbinden met de echte robot</h1>
+    <p class="intro">Ik wilde de Reachy-app op mijn laptop starten en de echte Reachy laten reageren.</p>
+    <p class="datum">di 3 t/m do 5 november 2026</p>
+
+    <section class="card">
+      <h2>Hoe de app de robot vindt</h2>
+      <p>De app start <code>ReachyMini()</code> in automatische modus. Hij probeert eerst een daemon op localhost en daarna de robot op <code>reachy-mini.local</code>. Er is in de app geen instelling voor een ander adres. In de documentatie kan het adres alleen als parameter in de code worden meegegeven.</p>
+    </section>
+    <section class="card">
+      <h2>Stappen en problemen</h2>
+      <p><strong>di 3 nov.</strong> Eerst draaide ik de app met de simulatie-daemon (<code>--sim</code>). In het log stond <code>Connection mode selected: localhost_only</code>, dus de app praatte met de simulatie en niet met de robot.</p>
+    </section>
+    <section class="card oplossing">
+      <p><span class="label">Oplossing.</span> Ik stopte de lokale daemon (en sloot Reachy Mini Control). Daarna verbond de app met de robot en stond in het log <code>Connection mode selected: network</code>. Reachy ging aan en de app startte op de fysieke Reachy zodra ik hem op mijn laptop startte.</p>
+    </section>
+    <section class="card">
+      <p><strong>wo 4 nov (festival).</strong> De video (WebRTC) liep soms vast met een timeout, door het slechte wifi. De hotspot van Yusuf loste dit op. Daarna moest ik de netwerknaam (SSID) en het wachtwoord van die hotspot in mijn ESP32-script zetten, want zo werkt mijn script.</p>
+      <p><strong>do 5 nov (thuis).</strong> De app gaf <code>Connection failed</code>.</p>
+    </section>
+    <section class="card probleem">
+      <p><span class="label">Probleem.</span> In mijn Windows hosts-bestand stond nog een regel die <code>reachy-mini.local</code> naar het IP-adres van het vorige netwerk liet wijzen.</p>
+    </section>
+    <section class="card oplossing">
+      <p><span class="label">Oplossing.</span> Ik verwijderde die regel en leegde de DNS-cache (<code>ipconfig /flushdns</code>).</p>
+    </section>
+    <section class="card">
+      <h2>Wat ik hieruit leer</h2>
+      <p>Een tijdelijke oplossing, zoals een regel in het hosts-bestand, moet ik weer terugdraaien. Ik vergat het, en het brak de verbinding de volgende dag. Ik schrijf nu elke tijdelijke wijziging op.</p>
+    </section>
+    <section class="card bronnen">
+      <h2>Bronnen</h2>
+      <ul>
+        <li>Reachy Mini documentatie, ReachyMini API. <a href="https://huggingface.co/docs/reachy_mini/main/API/reachymini" style="color:#002ea3">https://huggingface.co/docs/reachy_mini/main/API/reachymini</a></li>
+        <li>Reachy Mini documentatie, Apps. <a href="https://huggingface.co/docs/reachy_mini/main/SDK/apps" style="color:#002ea3">https://huggingface.co/docs/reachy_mini/main/SDK/apps</a></li>
+      </ul>
+    </section>
+
+    <div class="pagenav"><a href="sprint-2-netwerk.html">← 7 Netwerk</a><a href="sprint-2-festival.html">9 Festival →</a></div>
+  </main>
+</div>
+</body>
+</html>

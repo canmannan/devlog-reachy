@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DevLog Sprint 2 - 3. ESP32 naar de app (WebSocket)</title>
+  <link rel="stylesheet" href="stylish.css">
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jersey+10&display=swap" rel="stylesheet">
+</head>
+<body class="devlog sprint2">
+<div class="s2-layout">
+  <nav class="s2-side">
+    <p class="s2-title">Sprint 2</p>
+      <a href="sprint-2.html">Overzicht</a>
+      <a href="sprint-2-reachy-bouwen.html">1 Reachy bouwen</a>
+      <a href="sprint-2-bluetooth.html">2 Bluetooth</a>
+      <a href="sprint-2-websocket.html" class="actief">3 WebSocket</a>
+      <a href="sprint-2-ademdata.html">4 Ademdata</a>
+      <a href="sprint-2-ademtool.html">5 Ademtool</a>
+      <a href="sprint-2-mockdata.html">6 Mockdata</a>
+      <a href="sprint-2-netwerk.html">7 Netwerk</a>
+      <a href="sprint-2-echte-robot.html">8 Echte robot</a>
+      <a href="sprint-2-festival.html">9 Festival</a>
+      <a href="sprint-2-seminar.html">10 Seminar</a>
+      <a href="sprint-2-epaper.html">11 E-paper</a>
+      <a href="sprint-2-afsluiting.html">Afsluiting</a>
+      <a class="s2-home" href="index.html">← Home</a>
+  </nav>
+  <main class="devlog-page">
+    <h1>3. ESP32 naar de app (WebSocket)</h1>
+    <p class="intro">De riemdata moest van de ESP32 via wifi naar de Reachy-app.</p>
+    <p class="datum">zo 1 november t/m di 3 november 2026</p>
+
+    <section class="card">
+      <h2>Waarom een WebSocket</h2>
+      <p>De ESP32 moet de ademdata naar de Reachy-app sturen. Ik koos een WebSocket omdat de app die al gebruikt voor de pulssensor van Rio. Zo kon ik hetzelfde patroon volgen (de <code>PhysiologicalClient</code>) en hoefde ik geen nieuwe manier te verzinnen om te verbinden.</p>
+      <p>Ik begon hier op zo 1 november mee. Echt duidelijke stappen kon ik pas op 2 en 3 november opschrijven, omdat ik eerst wilde zien hoe Rio het in zijn deel had gedaan. Dat was goed gedaan, dus ik nam een deel van zijn systeem over.</p>
+      <p><span class="tag">Riem</span> → <span class="tag">ESP32</span> → <span class="tag">WebSocket via wifi</span> → <span class="tag">Reachy-app</span></p>
+    </section>
+    <section class="card">
+      <h2>Stappen</h2>
+      <ol>
+        <li>De ESP32 draait een kleine WebSocket-server op poort 80, pad <code>/ws</code>.</li>
+        <li>Hij doet de handshake en beantwoordt pings, zodat de app de verbinding niet verliest.</li>
+        <li>Hij stuurt per meting één JSON-bericht, bijvoorbeeld <code>{"t": 123456, "v": -0.12, "state": "inhaling", "rate": 14.5, "depth": 0.52, "range": 312}</code>.</li>
+        <li>In de app leest de <code>BreathingClient</code> dat bericht en bewaart de laatste meting.</li>
+        <li>Het adres van de ESP32 staat in het bestand <code>.env</code> als <code>BREATHING_SENSOR_HOST</code>.</li>
+      </ol>
+      <figure class="figure-narrow">
+        <img src="sprint2/test-ws.jpg" alt="PowerShell met binnenkomende berichten met t en v">
+        <figcaption>Mijn eerste test (<code>test_ws.py</code>). De berichten komen binnen, nog met alleen <code>t</code> en <code>v</code>. In de Thonny-screenshot op pagina 2 zie je de server draaien op <code>ws://&hellip;/ws</code>.</figcaption>
+      </figure>
+    </section>
+    <section class="card uitleg">
+      <h2>De handshake</h2>
+      <p>De handshake volgt RFC 6455. De waarde <code>Sec-WebSocket-Accept</code> is de SHA-1 van de sleutel plus een vaste GUID.</p>
+    </section>
+    <section class="card probleem">
+      <p><span class="label">Probleem.</span> Verbinding geweigerd. Het script luisterde op poort 8080, maar de client verbond met <code>ws://192.168.4.1/ws</code> (poort 80).</p>
+    </section>
+    <section class="card oplossing">
+      <p><span class="label">Oplossing.</span> Ik zette <code>PORT = 80</code> in het script.</p>
+    </section>
+    <section class="card probleem">
+      <p><span class="label">Probleem.</span> Mijn testscript werkte niet. Ik had de plaatsaanduiding <code>&lt;pad.naar.je.tool&gt;</code> letterlijk geplakt en het script in Thonny gedraaid in plaats van in PowerShell.</p>
+    </section>
+    <section class="card oplossing">
+      <p><span class="label">Oplossing.</span> Ik vulde het echte pad in en draaide de test als Python-module vanuit <code>src\reachy</code> in PowerShell.</p>
+    </section>
+    <section class="card">
+      <h2>Wat ik hieruit leer</h2>
+      <p>Veel problemen waren kleine fouten (een poortnummer, een plaatsaanduiding). Eerst de kleine dingen controleren, zoals de poort en waar ik een commando draai, scheelt veel tijd.</p>
+      <p>Ik leerde ook dat het slim is om een werkend voorbeeld van een teamgenoot te bekijken voordat je zelf iets nieuws bedenkt.</p>
+    </section>
+    <section class="card bronnen">
+      <h2>Bronnen</h2>
+      <ul>
+        <li>RFC 6455, The WebSocket Protocol. <a href="https://datatracker.ietf.org/doc/html/rfc6455" style="color:#002ea3">https://datatracker.ietf.org/doc/html/rfc6455</a></li>
+        <li>MicroPython, network. <a href="https://docs.micropython.org/en/latest/library/network.html" style="color:#002ea3">https://docs.micropython.org/en/latest/library/network.html</a></li>
+        <li>MicroPython voor de ESP32. <a href="https://micropython.org/download/ESP32_GENERIC/" style="color:#002ea3">https://micropython.org/download/ESP32_GENERIC/</a></li>
+      </ul>
+    </section>
+
+    <div class="pagenav"><a href="sprint-2-bluetooth.html">← 2 Bluetooth</a><a href="sprint-2-ademdata.html">4 Ademdata →</a></div>
+  </main>
+</div>
+</body>
+</html>

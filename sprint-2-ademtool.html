@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DevLog Sprint 2 - 5. De ademtool in de Reachy-app</title>
+  <link rel="stylesheet" href="stylish.css">
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jersey+10&display=swap" rel="stylesheet">
+</head>
+<body class="devlog sprint2">
+<div class="s2-layout">
+  <nav class="s2-side">
+    <p class="s2-title">Sprint 2</p>
+      <a href="sprint-2.html">Overzicht</a>
+      <a href="sprint-2-reachy-bouwen.html">1 Reachy bouwen</a>
+      <a href="sprint-2-bluetooth.html">2 Bluetooth</a>
+      <a href="sprint-2-websocket.html">3 WebSocket</a>
+      <a href="sprint-2-ademdata.html">4 Ademdata</a>
+      <a href="sprint-2-ademtool.html" class="actief">5 Ademtool</a>
+      <a href="sprint-2-mockdata.html">6 Mockdata</a>
+      <a href="sprint-2-netwerk.html">7 Netwerk</a>
+      <a href="sprint-2-echte-robot.html">8 Echte robot</a>
+      <a href="sprint-2-festival.html">9 Festival</a>
+      <a href="sprint-2-seminar.html">10 Seminar</a>
+      <a href="sprint-2-epaper.html">11 E-paper</a>
+      <a href="sprint-2-afsluiting.html">Afsluiting</a>
+      <a class="s2-home" href="index.html">← Home</a>
+  </nav>
+  <main class="devlog-page">
+    <h1>5. De ademtool in de Reachy-app</h1>
+    <p class="intro">Reachy moet mijn ademhaling kunnen opvragen als ik vraag &ldquo;Hoe adem ik nu?&rdquo;.</p>
+    <p class="datum">di 3 november 2026</p>
+
+    <section class="card">
+      <h2>Wat ik maakte</h2>
+      <ul>
+        <li><code>BreathingData</code> (t, v, state, rate, depth) en <code>BreathingClient</code> in de map <code>ext_sensors/breathing</code>.</li>
+        <li><code>breathing_sensor_tool.py</code> geeft de state, ademhalingen per minuut en diepte terug, of &ldquo;unavailable&rdquo; als er nog geen meting is.</li>
+        <li>De tool staat in het profiel <code>interpret</code>, zodat het team hem kan gebruiken.</li>
+      </ul>
+      <p>Ik volgde dezelfde opbouw als de pulssensor van Rio, zodat de code voor iedereen er hetzelfde uitziet.</p>
+    </section>
+    <section class="card">
+      <h2>Eerst testen zonder Reachy</h2>
+      <p>Voordat ik de tool aan Reachy koppelde, testte ik de client los met <code>test_breathclient</code>. Je ziet de metingen binnenkomen met state, rate en depth. Eén keer viel de verbinding weg (&ldquo;connection lost&rdquo;) en daarna kwamen de metingen weer binnen. De rate is soms nog leeg (<code>None</code>). Ik denk dat dit komt doordat hij eerst genoeg ademhalingen moet tellen, maar dat heb ik niet apart gecontroleerd.</p>
+      <figure>
+        <img src="sprint2/breathclient.jpg" alt="Terminal met BreathingData met state, rate en depth">
+        <figcaption>De test van de client. De waarden <code>state</code>, <code>rate</code> en <code>depth</code> komen binnen.</figcaption>
+      </figure>
+    </section>
+    <section class="card probleem">
+      <p><span class="label">Probleem.</span> De app bouwde niet. <code>uv sync</code> gaf <code>UnicodeDecodeError: 'utf-8' codec can't decode byte 0xff</code>.</p>
+    </section>
+    <section class="card oplossing">
+      <p><span class="label">Oplossing.</span> De <code>README.md</code> was als UTF-16 opgeslagen en de bouw leest UTF-8. Ik zette het bestand om naar UTF-8.</p>
+    </section>
+    <section class="card probleem">
+      <p><span class="label">Probleem.</span> Het log zei <code>Tool 'breathing_sensor_tool' not found in shared or external tools</code>. Reachy kende de tool dus niet.</p>
+    </section>
+    <section class="card oplossing">
+      <p><span class="label">Oplossing.</span> Na de bouwfix en na het starten vanuit de map <code>src\reachy</code> stond in het log <code>Loaded external tool: breathing_sensor_tool</code>. Ik weet niet zeker welke van de twee stappen het oploste.</p>
+    </section>
+    <section class="card">
+      <h2>Wat zegt Reachy?</h2>
+      <p>Op di 3 november werkte het uitlezen helemaal. Reachy gaat aan en de app start op de robot zodra ik hem op mijn laptop start, zonder extra stappen. In het log zie ik dat Reachy de tool aanroept.</p>
+      <p>Als ik Reachy vraag hoe ik adem, zegt hij bijvoorbeeld dat ik erg langzaam en rustig adem. De woorden zijn niet elke keer hetzelfde, want de antwoorden komen van een taalmodel. Direct na het opstarten van de app zegt hij soms hetzelfde, of juist het tegenovergestelde. Hij geeft ook aan dat hij nog niet alle data heeft. Ik moet ongeveer een minuut wachten tot hij genoeg ademdata heeft verzameld.</p>
+      <p>Dat past bij mijn script, want de analyse gebruikt de laatste ongeveer 30 seconden en heeft een opwarmtijd. Ik testte dit ook op school met mijn eigen ademhaling. Het antwoord klopte steeds en bleef constant.</p>
+    </section>
+    <section class="card">
+      <h2>Wat ik hieruit leer</h2>
+      <p>Lees eerst het log. Het vertelde me elke keer precies wat er mis was.</p>
+    </section>
+    <section class="card bronnen">
+      <h2>Bronnen</h2>
+      <ul>
+        <li>Reachy Mini documentatie, Apps. <a href="https://huggingface.co/docs/reachy_mini/main/SDK/apps" style="color:#002ea3">https://huggingface.co/docs/reachy_mini/main/SDK/apps</a></li>
+        <li>Pipeline / Lifecycle (Team9 Documentation).</li>
+        <li>Recognizing Physiological and Emotional states with Sensors (Team9 Documentation). <a href="https://studio.dev.hihva.nl/dark-tech/projects/2026-2027-semester-1/when-robots-know-your-body/research/physiological-state-research/" style="color:#002ea3">https://studio.dev.hihva.nl/dark-tech/projects/2026-2027-semester-1/when-robots-know-your-body/research/physiological-state-research/</a></li>
+      </ul>
+    </section>
+
+    <div class="pagenav"><a href="sprint-2-ademdata.html">← 4 Ademdata</a><a href="sprint-2-mockdata.html">6 Mockdata →</a></div>
+  </main>
+</div>
+</body>
+</html>
