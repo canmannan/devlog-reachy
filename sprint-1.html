@@ -74,6 +74,30 @@
     </section>
 
     <section class="card">
+      <h2>Voor Sprint 1 morsecode uitzenden met de Pi (bootcamp)</h2>
+      <p>In week 1 en 2 van de bootcamp, kort voor Sprint 1, deed ik een eigen project met de Raspberry Pi Pico. De opdracht mocht ik een beetje zelf invullen, maar de bedoeling was dat ik het met de Pi deed. Mijn vader had een draagbare AM/FM-radio gekocht en ik wilde daar iets leuks mee doen. Ik had een video gezien waarin iemand een signaal van NASA oppakte met een zelfgebouwde satelliet, en dat gaf me het idee om zelf een signaal naar een radio te sturen.</p>
+      <p>Ik liet de Pi morsecode uitzenden die ik op de radio kon ontvangen. Eerst moest ik de Pi leren flashen en programmeren, en ik leerde morsecode. Daarna schreef ik een MicroPython-script dat op pin GP15 een signaal van 1600 kHz maakt (PWM) en dat aan en uit zet in korte en lange stukken. Een punt duurt 0,15 seconde en een streep 0,45 seconde. Aan GP15 zat een draadje als antenne, met een weerstand ertussen. Ik stelde de radio af op 1600 kHz en hield hem dicht bij het draadje. Zo hoorde ik eerst mijn naam (CAN) als piepjes, en daarna een SOS.</p>
+      <div class="figure-row">
+        <figure>
+          <img src="sprint1/radio-pico-1.jpg" alt="De Raspberry Pi Pico op een breadboard met draadjes">
+          <figcaption>De Pico op het breadboard met het antennedraadje.</figcaption>
+        </figure>
+        <figure>
+          <img src="sprint1/radio-pico-2.jpg" alt="De opstelling met de Pico op de vloer">
+          <figcaption>De hele opstelling, aangesloten op mijn laptop.</figcaption>
+        </figure>
+      </div>
+      <p>In het schema zat eerst een weerstand van 1 kΩ. Ik verving die door 330 Ω. Dan loopt er iets meer stroom (ongeveer 10 mA in plaats van 3,3 mA), wat nog ruim binnen blijft van wat een pin van de Pico aankan. Het voordeel is een iets sterker signaal op het draadje.</p>
+      <p>Hier leerde ik hoe een radio een signaal kan sturen, en waarom de bekabeling van de Pi belangrijk is zodat de radio het signaal ook oppakt. Ik leerde ook de basisstappen van een Pi flashen en programmeren.</p>
+      <p><strong>Bronnen</strong></p>
+      <ul>
+        <li>Raspberry Pi, Getting started with Raspberry Pi Pico (installeren en flashen). <a href="https://datasheets.raspberrypi.com/pico/getting-started-with-pico.pdf" style="color:#002ea3">https://datasheets.raspberrypi.com/pico/getting-started-with-pico.pdf</a></li>
+        <li>Raspberry Pi, Raspberry Pi Pico datasheet (pinout). <a href="https://datasheets.raspberrypi.com/pico/pico-datasheet.pdf" style="color:#002ea3">https://datasheets.raspberrypi.com/pico/pico-datasheet.pdf</a></li>
+        <li>AM-radio zenden met de Raspberry Pi Pico. <a href="https://vha3.github.io/Pico/AM_Radio/AM.html" style="color:#002ea3">https://vha3.github.io/Pico/AM_Radio/AM.html</a></li>
+      </ul>
+    </section>
+
+    <section class="card">
       <h2>Hoe de keten werkt</h2>
       <p>De riem stuurt de ademhaling via Bluetooth naar de USB-dongle. Op mijn laptop verschijnt die dongle als COM-poort. De Python-backend leest die poort uit en stuurt de data door naar de browser, waar ik dan de metingen kan uitvoeren.</p>
       <p><span class="tag">Riem</span> → <span class="tag">Dongle (COM)</span> → <span class="tag">Python-backend</span> → <span class="tag">React-app</span></p>
