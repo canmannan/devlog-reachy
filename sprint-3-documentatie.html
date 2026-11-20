@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DevLog Sprint 3 - 1. Documentatie bijwerken</title>
+  <link rel="stylesheet" href="stylish.css">
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jersey+10&display=swap" rel="stylesheet">
+</head>
+<body class="devlog sprint2">
+<div class="s2-layout">
+  <nav class="s2-side">
+    <p class="s2-title">Sprint 3</p>
+      <a href="sprint-3.html">Overzicht</a>
+      <a href="sprint-3-documentatie.html" class="actief">1 Documentatie</a>
+      <a href="sprint-3-fieldtesting.html">2 Field testing</a>
+      <a href="sprint-3-licht.html">3 Licht en stemming</a>
+      <a href="sprint-3-lamp.html">4 Lamp testen</a>
+      <a class="s2-home" href="index.html">← Home</a>
+  </nav>
+  <main class="devlog-page">
+    <h1>1. Documentatie bijwerken</h1>
+    <p class="intro">Mijn documentatie van de ademsensor was niet up-to-date en moest netter.</p>
+    <p class="datum">wo 11 t/m vr 13 november 2026</p>
+
+    <section class="card">
+      <h2>Waarom</h2>
+      <p>Rio, onze teamleider, gaf als feedback dat de documentatie netter moest. De pagina's over de ademsensor waren verouderd, omdat de opstelling in Sprint 2 veranderd was. Er was ook nog geen pagina over de API en integratie, terwijl de pulssensor die wel had.</p>
+    </section>
+    <section class="card">
+      <h2>Wat ik deed</h2>
+      <ol>
+        <li>Ik bekeek de pagina's van de pulssensor van Rio en nam de opbouw als voorbeeld, met de &ldquo;API &amp; Integration&rdquo; pagina als sjabloon.</li>
+        <li>Ik schreef de <strong>Hardware</strong> pagina opnieuw. De riem, hoe hij over Bluetooth praat (service FFE0, characteristic FFE1, pakketten van 5 bytes) en hoe de ESP32 hem uitleest.</li>
+        <li>Ik schreef de <strong>Software</strong> pagina voor de firmware. Thonny installeren, MicroPython op de ESP32 zetten, wifi instellen, het script uploaden en de uitvoer in de Shell controleren.</li>
+        <li>Ik maakte de <strong>API &amp; Integration</strong> pagina. Het WebSocket-adres, het berichtformaat, hoe de waarden worden berekend en hoe de Reachy-app ze ontvangt, ook met de mock zonder riem.</li>
+        <li>Ik verwees vanaf elke pagina naar de andere, zodat de volgorde duidelijk is.</li>
+      </ol>
+    </section>
+    <section class="card uitleg">
+      <h2>Uitleg. De opbouw</h2>
+      <p>De pagina's staan nu in deze volgorde. Eerst de hardware, dan de firmware, dan de API waarmee de Reachy-app de data ophaalt. Zo kan iemand die nieuw is het in dezelfde volgorde lezen als hij het systeem bouwt.</p>
+    </section>
+    <section class="card probleem">
+      <p><span class="label">Probleem.</span> Ik las de pagina &ldquo;Software&rdquo; van Rio eerst als de app, maar die ging over het opzetten van de firmware.</p>
+    </section>
+    <section class="card oplossing">
+      <p><span class="label">Oplossing.</span> Ik vroeg het na en schreef de pagina voor de ESP32 met MicroPython en Thonny. Ik haalde de onderdelen weg die bij de oude Arduino Nano hoorden, want we gebruiken een ESP32-WROOM.</p>
+    </section>
+    <section class="card probleem">
+      <p><span class="label">Probleem.</span> De oude documentatie beschreef nog de USB-dongle en de PC.</p>
+    </section>
+    <section class="card oplossing">
+      <p><span class="label">Oplossing.</span> Ik liet dat staan als &ldquo;eerdere opstelling&rdquo; op de hardwarepagina en legde uit waarom de huidige opstelling de dongle niet meer nodig heeft.</p>
+    </section>
+    <section class="card">
+      <h2>Wat ik hieruit leer</h2>
+      <p>Documentatie veroudert snel als het systeem verandert. Een duidelijke volgorde en één plek per onderwerp maken het makkelijker om bij te houden. Ik controleer nu na elke grote wijziging of de pagina's nog kloppen.</p>
+      <p>[Eigen conclusie, wat vond je lastig of nuttig?]</p>
+    </section>
+
+    <div class="pagenav"><a href="sprint-3.html">← Overzicht</a><a href="sprint-3-fieldtesting.html">2 Field testing →</a></div>
+  </main>
+</div>
+</body>
+</html>

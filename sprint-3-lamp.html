@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DevLog Sprint 3 - 4. De lamp testen</title>
+  <link rel="stylesheet" href="stylish.css">
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jersey+10&display=swap" rel="stylesheet">
+</head>
+<body class="devlog sprint2">
+<div class="s2-layout">
+  <nav class="s2-side">
+    <p class="s2-title">Sprint 3</p>
+      <a href="sprint-3.html">Overzicht</a>
+      <a href="sprint-3-documentatie.html">1 Documentatie</a>
+      <a href="sprint-3-fieldtesting.html">2 Field testing</a>
+      <a href="sprint-3-licht.html">3 Licht en stemming</a>
+      <a href="sprint-3-lamp.html" class="actief">4 Lamp testen</a>
+      <a class="s2-home" href="index.html">← Home</a>
+  </nav>
+  <main class="devlog-page">
+    <h1>4. De lamp testen</h1>
+    <p class="intro">Ik wilde weten of een echte lamp de kleuren en de snelheid aankan.</p>
+    <p class="datum">wo 18 november 2026</p>
+
+    <section class="card">
+      <h2>Waarom</h2>
+      <p>Ik wilde testen of een echte lamp de lichtstanden uit mijn onderzoek aankan, vooral de kleuren en de snelheid waarmee hij reageert over wifi. Als hij te langzaam is, kan hij bijvoorbeeld niet met de ademhaling meebewegen.</p>
+    </section>
+    <section class="card">
+      <h2>Wat ik deed</h2>
+      <ol>
+        <li>Ik testte de lamp (LSC 970714 AL-f20c) eerst met de Smart Life app. De kleuren zien er goed uit. Wit wordt niet helemaal wit, er blijft een tint in zitten.</li>
+        <li>Ik wilde de lamp met een script aansturen en de responstijd meten. Met <code>tinytuya</code> vond de scan de lamp op mijn netwerk.</li>
+        <li>Voor de lokale sleutel heb je een Tuya IoT project nodig. Mijn account koppelen lukte niet.</li>
+        <li>Ik koos daarom voor een andere meting. Hoe snel de lamp een verbinding accepteert.</li>
+      </ol>
+    </section>
+    <section class="card probleem">
+      <p><span class="label">Probleem.</span> De koppeling met het Tuya-project mislukte met de melding dat de datacenters niet overeenkomen, dus ik kreeg geen lokale sleutel. Ping werkte ook niet, omdat de lamp ping negeert.</p>
+    </section>
+    <section class="card oplossing">
+      <p><span class="label">Oplossing.</span> Ik mat de tijd die een TCP-verbinding naar poort 6668 van de lamp kost, 20 keer achter elkaar in PowerShell.</p>
+    </section>
+    <section class="card">
+      <h2>Resultaten</h2>
+      <p>Alle 20 verbindingen lukten.</p><ul>
+        <li>Gemiddeld 64,6 ms</li>
+        <li>Kortste 9 ms</li>
+        <li>Langste 1032 ms</li>
+      </ul>
+      <p>Dit meet alleen de verbinding, niet hoe snel de kleur echt verandert. [Waar testte je, en hoe ver van de router?]</p>
+    </section>
+    <section class="card">
+      <h2>Wat ik hieruit leer</h2>
+      <p>Het gemiddelde is laag, maar de langste meting duurt ruim een seconde. Voor een lamp die met de ademhaling meebeweegt is dat een risico. [Eigen conclusie.]</p>
+      <p>Ik meet de echte reactietijd van de kleur nog niet. Dat kan met een filmpje of met een script zodra ik de lokale sleutel heb.</p>
+    </section>
+
+    <div class="pagenav"><a href="sprint-3-licht.html">← 3 Licht en stemming</a><span></span></div>
+  </main>
+</div>
+</body>
+</html>

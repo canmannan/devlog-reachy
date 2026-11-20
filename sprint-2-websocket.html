@@ -72,6 +72,11 @@
       <p><span class="label">Oplossing.</span> Ik vulde het echte pad in en draaide de test als Python-module vanuit <code>src\reachy</code> in PowerShell.</p>
     </section>
     <section class="card">
+      <h2>Waarom ik dit koos</h2>
+      <p>Ik koos een WebSocket omdat de riem al met een WebSocket werkte. Ik heb dit overlegd met Rio. Hij zei dat het zo voor de development veel makkelijker is.</p>
+      <p>Een WebSocket is ook beter dan een normaal HTTP-verzoek als je direct, in real time wilt communiceren. De server kan dan zelf updates sturen, zonder dat de gebruiker er steeds om hoeft te vragen. Bij de ademhaling is dat handig, want de ESP32 stuurt ongeveer 20 keer per seconde een nieuwe meting.</p>
+    </section>
+    <section class="card">
       <h2>Wat ik hieruit leer</h2>
       <p>Veel problemen waren kleine fouten (een poortnummer, een plaatsaanduiding). Eerst de kleine dingen controleren, zoals de poort en waar ik een commando draai, scheelt veel tijd.</p>
       <p>Ik leerde ook dat het slim is om een werkend voorbeeld van een teamgenoot te bekijken voordat je zelf iets nieuws bedenkt.</p>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DevLog Sprint 3 - 2. Field testing, het scenario “I Miss You”</title>
+  <link rel="stylesheet" href="stylish.css">
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jersey+10&display=swap" rel="stylesheet">
+</head>
+<body class="devlog sprint2">
+<div class="s2-layout">
+  <nav class="s2-side">
+    <p class="s2-title">Sprint 3</p>
+      <a href="sprint-3.html">Overzicht</a>
+      <a href="sprint-3-documentatie.html">1 Documentatie</a>
+      <a href="sprint-3-fieldtesting.html" class="actief">2 Field testing</a>
+      <a href="sprint-3-licht.html">3 Licht en stemming</a>
+      <a href="sprint-3-lamp.html">4 Lamp testen</a>
+      <a class="s2-home" href="index.html">← Home</a>
+  </nav>
+  <main class="devlog-page">
+    <h1>2. Field testing, het scenario “I Miss You”</h1>
+    <p class="intro">We bereiden een gebruikerstest voor met een scenario waarin Reachy een bericht stuurt.</p>
+    <p class="datum">vr 13 november 2026</p>
+
+    <section class="card">
+      <h2>Waarom</h2>
+      <p>Voor het festival willen we weten hoe bezoekers reageren op ons concept. Tijdens de workshop op vrijdag 13 november hebben we daarom een field test voorbereid voor het scenario &ldquo;I Miss You&rdquo;. De uitwerking staat in het Field Testing document, dat op maandag 23 november ingeleverd moet zijn.</p>
+    </section>
+    <section class="card">
+      <h2>Het scenario</h2>
+      <p>Reachy meet de ademhaling en hartslag van een bezoeker, bewaart die gegevens en koppelt ze aan een emotie. Later ziet hij bij een vergelijkbare vraag opnieuw een verhoogde hartslag en een onregelmatige ademhaling. Hij concludeert dat de bezoeker in paniek raakt en stuurt zonder te vragen het bericht &ldquo;I miss you&rdquo;.</p>
+    </section>
+    <section class="card">
+      <h2>Stap 1, provocatype check</h2>
+      <p>Ik liep samen met het team de zes kenmerken langs en schreef bij elk op wat er al is en wat we nog niet weten.</p><ul>
+        <li><strong>Gegrond</strong>. Robots met een chatbot, hartslag- en ademsensoren en automatische berichten kent iedereen uit het dagelijks leven. Het is nog onbekend of bezoekers het scenario herkennen.</li>
+        <li><strong>Uitvergroot</strong>. We vergroten uit wat een systeem uit je lichaam afleidt en wat het daarna doet.</li>
+        <li><strong>Dissonant</strong>. Een robot is bekend, maar dat hij zelf bepaalt wat je voelt en zonder te vragen een bericht stuurt, voelt vreemd.</li>
+        <li><strong>Ervaarbaar</strong>. Bezoekers doen de sensoren om en voeren zelf het gesprek.</li>
+        <li><strong>Dialogisch</strong>. De vraag of een robot op basis van lichaamsdata mag bepalen wat je voelt, nodigt uit tot een gesprek over controle en privacy.</li>
+        <li><strong>Handelingsgericht</strong>. We gebruiken de uitkomst om het concept nog donkerder te maken.</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>Stap 2, testopzet</h2>
+      <p>Onze onderzoeksvraag is hoe bezoekers reageren wanneer Reachy op basis van hun ademhaling en hartslag bepaalt wat ze voelen en daarna zonder te vragen een bericht namens hen stuurt. We kozen deze vraag omdat we nog niet weten welke vragen ons provocatype oproept en of het donker genoeg is.</p>
+    </section>
+    <section class="card">
+      <h2>Het testscript</h2>
+      <ol>
+        <li>We leggen kort uit wat we doen, vragen toestemming en doen de ademhalingsriem en hartslagsensor om.</li>
+        <li>De testpersoon voert 3 tot 5 minuten een gesprek met Reachy. Reachy stelt een vraag die iets oproept en merkt dat de ademhaling verandert.</li>
+        <li>Later ziet Reachy bij een vergelijkbare vraag opnieuw een verhoogde hartslag en onregelmatige ademhaling en stuurt hij het bericht &ldquo;I miss you&rdquo;.</li>
+        <li>Een teamlid observeert en noteert met tijden.</li>
+        <li>Daarna volgt het interview.</li>
+      </ol>
+      <p>Elke testpersoon krijgt dezelfde stappen, zodat de resultaten vergelijkbaar zijn.</p>
+    </section>
+    <section class="card uitleg">
+      <h2>Gestructureerd interview</h2>
+      <p>Na de test doen we een gestructureerd interview. Dat betekent dat iedereen dezelfde vragen krijgt in dezelfde volgorde, zodat we de antwoorden goed kunnen vergelijken.</p>
+      <p>Het interview duurt ongeveer 10 minuten. De vragen zijn open en neutraal. We beginnen met een korte introductie en vragen toestemming om op te nemen. De antwoorden gebruiken we anoniem.</p>
+      <h3>Kennismaking</h3>
+      <ol>
+        <li>Kun je kort iets over jezelf vertellen?</li>
+        <li>Wat is jouw ervaring met robots, AI of apparaten die iets over je lichaam meten, zoals een smartwatch?</li>
+      </ol>
+      <h3>Hoofdvragen over de ervaring</h3>
+      <ol start="3">
+        <li>Hoe heb je het gesprek met Reachy ervaren?</li>
+        <li>Wanneer merkte je dat Reachy je ademhaling en hartslag gebruikte, en hoe voelde dat?</li>
+        <li>Reachy trok een conclusie over wat je voelde. Wat ging er door je heen toen je dat hoorde, en hoe verhield dat zich tot wat je echt voelde?</li>
+        <li>Reachy stuurde daarna een bericht. Wat ging er door je heen toen je dat zag?</li>
+      </ol>
+      <h3>Hoofdvragen over de mening</h3>
+      <ol start="7">
+        <li>Wat vind je ervan dat Reachy dit zelf deed, zonder het te vragen?</li>
+        <li>Wat vind je ervan dat een robot bepaalt wat jij voelt?</li>
+        <li>Wat zou je niet willen dat Reachy of iemand anders over jou weet? Waar denk je dat de gegevens naartoe gaan en wie zou erbij mogen?</li>
+      </ol>
+      <h3>Hoofdvragen over verbetering</h3>
+      <ol start="10">
+        <li>Wat zou Reachy anders moeten doen, zodat je je er prettiger bij voelt?</li>
+        <li>In welke situatie zou je zoiets wel willen, en in welke niet?</li>
+      </ol>
+      <h3>Afsluiting</h3>
+      <ol start="12">
+        <li>Is er nog iets wat je kwijt wilt en wat ik niet heb gevraagd?</li>
+      </ol>
+      <p>Bij een kort antwoord vragen we door, bijvoorbeeld met &ldquo;Kun je daar een voorbeeld van geven?&rdquo; of &ldquo;Hoe voelde je je daarbij?&rdquo;. Aan het eind bedanken we de testpersoon en leggen we uit wat er in de test gebeurde en dat de conclusie van Reachy fout kan zijn.</p>
+    </section>
+    <section class="card probleem">
+      <p><span class="label">Probleem.</span> Ik wist niet goed hoe je een gestructureerd interview opzet.</p>
+    </section>
+    <section class="card oplossing">
+      <p><span class="label">Oplossing.</span> Ik zocht uit dat je vaste vragen in een vaste volgorde stelt, geen suggestieve vragen gebruikt en open vragen stelt, en schreef de vragen zo op.</p>
+    </section>
+    <section class="card">
+      <h2>Wat ik hieruit leer</h2>
+      <p>Een goede testvraag dwingt je om te kiezen wat je echt wilt weten. [Eigen conclusie.]</p>
+    </section>
+
+    <div class="pagenav"><a href="sprint-3-documentatie.html">← 1 Documentatie</a><a href="sprint-3-licht.html">3 Licht en stemming →</a></div>
+  </main>
+</div>
+</body>
+</html>
